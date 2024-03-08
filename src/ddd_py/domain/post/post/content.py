@@ -10,6 +10,3 @@ class Content:
     def __post_init__(self):
         if (len(self.value) < CONTENT_MIN_LENGTH) or (len(self.value) > CONTENT_MAX_LENGTH):
             raise error.DomainError("invalid content length")
-        
-    def IsEmpty(self) -> bool:
-        return len(self.value) == 0

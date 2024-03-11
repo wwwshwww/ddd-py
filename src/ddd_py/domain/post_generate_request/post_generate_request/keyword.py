@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from . import error
 
-KEYWORD_MIN_LENGTH, KEYWORD_MAX_LENGTH = 1, 10
+KEYWORD_MIN_LENGTH, KEYWORD_MAX_LENGTH = 1, 11
 
 @dataclass(frozen=True)
 class Keyword:

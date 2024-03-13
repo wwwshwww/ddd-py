@@ -12,6 +12,8 @@ annotated-types==0.6.0
     # via pydantic
 anyio==4.3.0
     # via starlette
+bcrypt==4.1.2
+    # via ddd-py
 fastapi==0.110.0
     # via ddd-py
 greenlet==3.0.3

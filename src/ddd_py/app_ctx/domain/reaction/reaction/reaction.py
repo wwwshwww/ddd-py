@@ -1,8 +1,8 @@
 
 from datetime import datetime
-from ddd_py.domain.post import post
-from ddd_py.domain.reaction_preset import reaction_preset
-from ddd_py.domain.user import user
+from ddd_py.app_ctx.domain.post import post
+from ddd_py.app_ctx.domain.reaction_preset import reaction_preset
+from ddd_py.app_ctx.domain.user import user
 
 from .id import Id
 

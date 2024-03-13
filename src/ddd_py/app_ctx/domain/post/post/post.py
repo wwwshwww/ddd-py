@@ -1,7 +1,7 @@
 from .id import Id
 from .content import Content
 
-from ddd_py.domain.user import user
+from ddd_py.app_ctx.domain.user import user
 
 class Post:
     def __init__(self, id: Id, user_id: user.Id, content: Content) -> None:

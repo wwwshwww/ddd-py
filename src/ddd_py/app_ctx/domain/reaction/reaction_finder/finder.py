@@ -4,7 +4,7 @@ from ast import List
 from .filtering_options import FilteringOptions
 from .sorting_options import SortingOptions
 
-from ddd_py.domain.reaction import reaction
+from ddd_py.app_ctx.domain.reaction import reaction
 
 class Finder(metaclass=abc.ABCMeta):
 

@@ -4,10 +4,11 @@ from ast import List
 from .filtering_options import FilteringOptions
 from .sorting_options import SortingOptions
 
-from ddd_py.domain.post import post
+from ddd_py.app_ctx.domain.user import user
 
 class Finder(metaclass=abc.ABCMeta):
 
     @abc.abstractclassmethod
-    def Find(self, filtering_options: FilteringOptions=None, sorting_options: SortingOptions=None) -> List[post.Id]:
+    def Find(self, filtering_options: FilteringOptions=None, sorting_options: SortingOptions=None) -> List[user.Id]:
         raise NotImplementedError()
+    

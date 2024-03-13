@@ -1,13 +1,13 @@
 from datetime import datetime
 from typing import List, Optional
 
-from ddd_py.domain.post import post
+from ddd_py.app_ctx.domain.post import post
 from .error import DomainError
 
 from .id import Id
 from .keyword import Keyword
 
-from ddd_py.domain.user import user
+from ddd_py.app_ctx.domain.user import user
 
 KEYWORDS_NUM_MIN, KEYWORDS_NUM_MAX = 1, 3
 

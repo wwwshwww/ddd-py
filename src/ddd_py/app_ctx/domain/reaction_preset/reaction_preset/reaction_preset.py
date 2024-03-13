@@ -4,7 +4,7 @@ from .error import DomainError
 from .id import Id
 from .content import Content
 
-from ddd_py.domain.user import user
+from ddd_py.app_ctx.domain.user import user
 
 class ReactionPreset():
     def __init__(self, id: Id, content: Content, created_by_user_id: user.Id, created_at: datetime) -> None:

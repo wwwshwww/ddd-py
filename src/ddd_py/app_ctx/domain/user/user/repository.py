@@ -6,10 +6,6 @@ from .user import User
 
 class Repository(metaclass=abc.ABCMeta):
 
-    @abc.abstractclassmethod
-    def NewIDs(num: int) -> List[Id]:
-        raise NotImplementedError()
-
     @abc.abstractmethod
     def BulkGet(ids: List[Id]) -> List[User]: 
         raise NotImplementedError()

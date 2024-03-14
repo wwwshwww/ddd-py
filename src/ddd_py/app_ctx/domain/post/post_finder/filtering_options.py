@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class FilteringOptions:
     reaction_num_more: Optional[int] = None

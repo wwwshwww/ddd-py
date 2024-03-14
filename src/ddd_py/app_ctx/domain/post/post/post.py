@@ -1,7 +1,8 @@
-from .id import Id
-from .content import Content
-
 from ddd_py.app_ctx.domain.user import user
+
+from .content import Content
+from .id import Id
+
 
 class Post:
     def __init__(self, id: Id, user_id: user.Id, content: Content) -> None:
@@ -12,7 +13,7 @@ class Post:
     @property
     def id(self) -> Id:
         return self._id
-    
+
     @property
     def user_id(self) -> user.Id:
         return self._user_id
@@ -20,6 +21,6 @@ class Post:
     @property
     def content(self) -> Content:
         return self._content
-    
+
     def replace_content(self, new_content: Content) -> None:
         self._content = new_content

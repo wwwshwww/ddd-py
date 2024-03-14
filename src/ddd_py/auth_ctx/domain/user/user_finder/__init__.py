@@ -1,3 +1,3 @@
-from .finder import *
-from .filtering_options import *
 from .error import *
+from .filtering_options import *
+from .finder import *

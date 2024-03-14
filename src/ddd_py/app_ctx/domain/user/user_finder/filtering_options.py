@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class FilteringOptions:
     name_exact: Optional[str] = None

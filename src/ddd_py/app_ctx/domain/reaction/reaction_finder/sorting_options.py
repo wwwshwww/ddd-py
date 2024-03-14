@@ -1,17 +1,24 @@
 import abc
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 
 class SortingType(metaclass=abc.ABCMeta):
     def __init__(self, asc: bool):
         self.asc = asc
 
-    def asc(self) -> bool:
+    def is_asc(self) -> bool:
         raise self.asc
-    
-class SortingTypeId(SortingType):...
-class SortingTypeReactionPresetId(SortingType):...
-class SortingTypeReactedAt(SortingType):...
+
+
+class SortingTypeId(SortingType): ...
+
+
+class SortingTypeReactionPresetId(SortingType): ...
+
+
+class SortingTypeReactedAt(SortingType): ...
+
 
 @dataclass
 class SortingOptions:

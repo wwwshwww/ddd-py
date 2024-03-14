@@ -1,11 +1,12 @@
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 
 from . import error
 
 INVALID_NAME_CHARS_REGEX = re.compile(r"[@<>{}]")
 
 NAME_MIN_LENGTH, NAME_MAX_LENGTH = 1, 11
+
 
 @dataclass(frozen=True)
 class Name:

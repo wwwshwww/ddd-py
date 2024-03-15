@@ -55,9 +55,12 @@ class Usecase:
 
             aus = self.auth_session_repository.bulk_get(aus_ids)[0]
             if aus.is_expired(now):
+                self.auth_session_repository.bulk_delete([aus])
                 raise UnauthorizedError("auth session is expired")
 
             idp_resp = self.usecase_port.code2token(li.code)
+
+            self.auth_session_repository.bulk_delete([aus])
 
             # TODO: verify id token
             found_user_ids = self.user_finder.find(

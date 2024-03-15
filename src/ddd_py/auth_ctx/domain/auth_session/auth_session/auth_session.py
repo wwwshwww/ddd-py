@@ -4,7 +4,7 @@ from .client_state import ClientState
 from .error import DomainError
 from .id import Id, generate_id
 
-EXPIRATION = datetime.timedelta(minutes=15)  # 認証セッションの有効期限
+EXPIRATION = datetime.timedelta(minutes=10)  # 認証セッションの有効期限
 
 
 class AuthSession:

@@ -85,5 +85,7 @@ class Usecase:
             raise RepositoryError() from e
         except PortError as e:
             raise e
+        except UnauthorizedError as e:
+            raise e
 
         return LoginOutput(ui.value, us.id.value, us_token.value)

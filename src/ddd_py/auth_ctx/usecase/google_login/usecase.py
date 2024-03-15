@@ -79,11 +79,11 @@ class Usecase:
             us, us_token = user_session.generate(u.id, now)
             self.user_session_repository.bulk_save([us])
 
-            return LoginOutput(ui.value, us.id.value, us_token.value)
-
         except auth_session.DomainError as e:
             raise DomainError() from e
         except auth_session.RepositoryError as e:
             raise RepositoryError() from e
         except PortError as e:
             raise e
+
+        return LoginOutput(ui.value, us.id.value, us_token.value)

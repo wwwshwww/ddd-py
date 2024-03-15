@@ -3,17 +3,17 @@ from dataclasses import dataclass
 
 @dataclass
 class StartInput:
-    state_value: str
+    client_state: str
 
 
 @dataclass
 class StartOutput:
-    state_id: str
+    auth_session_id: str
 
 
 @dataclass
 class LoginInput:
-    state_id: str
+    auth_session_id: str
     code: str
 
 
@@ -22,3 +22,8 @@ class LoginOutput:
     user_id: int
     session_id: str
     session_token: str
+
+
+@dataclass
+class IdpTokenResponse:
+    sub: str

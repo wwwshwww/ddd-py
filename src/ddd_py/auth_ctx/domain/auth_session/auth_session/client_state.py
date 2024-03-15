@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class AppRoute:
+class ClientState:
     """application URL when user requested authentication"""
 
     value: str

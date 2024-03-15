@@ -1,8 +1,8 @@
 import datetime
 
-from .app_route import AppRoute
+from .client_state import ClientState
 from .error import DomainError
-from .id import Id
+from .id import Id, generate_id
 
 EXPIRATION = datetime.timedelta(minutes=15)  # 認証セッションの有効期限
 
@@ -11,7 +11,7 @@ class AuthSession:
     def __init__(
         self,
         id: Id,
-        app_route: AppRoute,
+        app_route: ClientState,
         started_at: datetime.datetime,
         expired_at: datetime.datetime,
     ) -> None:
@@ -31,7 +31,7 @@ class AuthSession:
         return self._id
 
     @property
-    def app_route(self) -> AppRoute:
+    def app_route(self) -> ClientState:
         return self._app_route
 
     @property
@@ -43,7 +43,8 @@ class AuthSession:
         return self._expired_at
 
 
-def create_auth_session(
-    id: Id, app_route: AppRoute, now: datetime.datetime
+def generate_auth_session(
+    client_state: ClientState, now: datetime.datetime
 ) -> AuthSession:
-    return AuthSession(id, app_route, now, now + EXPIRATION)
+    i = generate_id()
+    return AuthSession(i, client_state, now, now + EXPIRATION)

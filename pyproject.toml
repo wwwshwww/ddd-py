@@ -6,6 +6,8 @@ dependencies = [
     "fastapi>=0.110.0",
     "sqlalchemy>=2.0.28",
     "bcrypt>=4.1.2",
+    "ipykernel>=6.29.3",
+    "uvicorn[standard]>=0.28.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

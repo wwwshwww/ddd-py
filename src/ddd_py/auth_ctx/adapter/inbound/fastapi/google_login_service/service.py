@@ -1,15 +1,28 @@
+from collections.abc import Generator
 from typing import Annotated
 
 from ddd_py.auth_ctx.usecase import google_login
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse, RedirectResponse
+
+from .model import LoginResponse
+
+AUTH_ENDPOINT = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 
-def prepare_dependencies():
+router = APIRouter(
+    prefix="/auth/google_login",
+    tags=["auth"],
+)
+
+
+def prepare_dependencies() -> Generator[google_login.Usecase, None, None]:
     raise NotImplementedError("need to inject dependency")
 
 
 # * Memo
-# def mock_dependencies():
+# def mock_dependencies() -> Generator[google_login.Usecase, None, None]:
 #     try:
 #         uc = google_login.Usecase(
 #             auth_session.RepositoryMock(),
@@ -22,18 +35,31 @@ def prepare_dependencies():
 # app.dependency_overrides[prepare_dependencies] = mock_dependencies
 
 
-router = APIRouter(
-    prefix="/auth/google_login",
-    tags=["auth"],
+@router.get(
+    path="/",
+    status_code=302,
+    response_class=RedirectResponse,
+    responses={
+        302: {
+            "description": "OK",
+            "content": {
+                "text/plain": {},
+            },
+            "headers": {
+                "Location": {
+                    "description": "SPAの場合は手動でリダイレクトしてね",
+                    "schema": {
+                        "type": "string",
+                        "example": "https://example.com/v1/auth?state=xxxxxxx",
+                    },
+                }
+            },
+        }
+    },
 )
-
-# TODO: 302
-
-
-@router.get("/start", status_code=302)
 async def start(
-    client_state: str,
     dependencies: Annotated[google_login.Usecase, Depends(prepare_dependencies)],
+    client_state: str = "",
 ):
     try:
         start_output = await dependencies.start(
@@ -48,15 +74,23 @@ async def start(
     except google_login.UnauthorizedError as e:
         raise HTTPException(status_code=401, detail=str(e)) from e
 
-    return {"state": start_output.auth_session_id}
+    url = f"{AUTH_ENDPOINT}?state={start_output.auth_session_id}"
+
+    return RedirectResponse(url=url, status_code=302)
 
 
-@router.get("/callback")
+# TODO: write correct OpenAPI
+
+
+@router.get(
+    path="/callback",
+    response_model=LoginResponse,
+)
 async def callback(
+    dependencies: Annotated[google_login.Usecase, Depends(prepare_dependencies)],
     state: str,
     code: str,
-    dependencies: Annotated[google_login.Usecase, Depends(prepare_dependencies)],
-):
+) -> LoginResponse:
     try:
         login_output = await dependencies.login(
             google_login.LoginInput(auth_session_id=state, code=code)
@@ -70,7 +104,18 @@ async def callback(
     except google_login.UnauthorizedError as e:
         raise HTTPException(status_code=401, detail=str(e)) from e
 
-    return {
-        "session_id": login_output.session_id,
-        "session_token": login_output.session_token,
-    }
+    content = jsonable_encoder(
+        LoginResponse(
+            user_id=login_output.user_id,
+            session_token=login_output.session_token,
+        )
+    )
+    resp = JSONResponse(content=content)
+    resp.set_cookie(
+        key="sid",
+        value=login_output.auth_session_id,
+        secure=True,
+        httponly=True,
+        samesite="lax",
+    )
+    return resp

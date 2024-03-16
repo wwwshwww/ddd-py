@@ -1,7 +1,7 @@
 import abc
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 
 class SortingType(metaclass=abc.ABCMeta):
@@ -44,4 +44,4 @@ class SortingTypeGiveReactionNum(SortingType):
 
 @dataclass
 class SortingOptions:
-    orders: List[SortingType]
+    orders: list[SortingType]

@@ -1,5 +1,4 @@
 import abc
-from ast import List
 
 from ddd_py.app_ctx.domain.user import user
 
@@ -13,5 +12,5 @@ class Finder(metaclass=abc.ABCMeta):
         self,
         filtering_options: FilteringOptions = None,
         sorting_options: SortingOptions = None,
-    ) -> List[user.Id]:
+    ) -> list[user.Id]:
         raise NotImplementedError()

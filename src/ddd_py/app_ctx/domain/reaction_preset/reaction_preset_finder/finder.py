@@ -1,5 +1,4 @@
 import abc
-from ast import List
 
 from ddd_py.app_ctx.domain.reaction_preset import reaction_preset
 
@@ -13,5 +12,5 @@ class Finder(metaclass=abc.ABCMeta):
         self,
         filtering_options: FilteringOptions = None,
         sorting_options: SortingOptions = None,
-    ) -> List[reaction_preset.Id]:
+    ) -> list[reaction_preset.Id]:
         raise NotImplementedError()

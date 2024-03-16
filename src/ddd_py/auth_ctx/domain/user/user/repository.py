@@ -1,5 +1,4 @@
 import abc
-from typing import List
 
 from .id import Id
 from .user import User
@@ -7,17 +6,17 @@ from .user import User
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def new_ids(self, num: int) -> List[Id]:
+    def new_ids(self, num: int) -> list[Id]:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_get(self, ids: List[Id]) -> List[User]:
+    def bulk_get(self, ids: list[Id]) -> list[User]:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_save(self, posts: List[User]) -> None:
+    def bulk_save(self, posts: list[User]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_delete(self, ids: List[Id]) -> None:
+    def bulk_delete(self, ids: list[Id]) -> None:
         raise NotImplementedError()

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from ddd_py.app_ctx.domain.post import post
 from ddd_py.app_ctx.domain.user import user
@@ -16,7 +16,7 @@ class PostGenerateRequest:
         self,
         id: Id,
         user_id: user.Id,
-        keywords: List[Keyword],
+        keywords: list[Keyword],
         requested_at: datetime,
         generated_post_id: Optional[post.Id],
     ) -> None:
@@ -40,7 +40,7 @@ class PostGenerateRequest:
         return self._user_id
 
     @property
-    def keywords(self) -> List[Keyword]:
+    def keywords(self) -> list[Keyword]:
         return self._keywords
 
     @property
@@ -56,6 +56,6 @@ class PostGenerateRequest:
 
 
 def create_post_generate_request_id(
-    id: Id, user_id: user.Id, keywords: List[Keyword], now: datetime
+    id: Id, user_id: user.Id, keywords: list[Keyword], now: datetime
 ) -> PostGenerateRequest:
     return PostGenerateRequest(id, user_id, keywords, now, None)

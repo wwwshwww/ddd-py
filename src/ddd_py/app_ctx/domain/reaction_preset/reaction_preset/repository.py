@@ -1,5 +1,4 @@
 import abc
-from typing import List
 
 from .id import Id
 from .reaction_preset import ReactionPreset
@@ -7,17 +6,17 @@ from .reaction_preset import ReactionPreset
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def new_ids(self, num: int) -> List[Id]:
+    def new_ids(self, num: int) -> list[Id]:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_get(self, ids: List[Id]) -> List[ReactionPreset]:
+    def bulk_get(self, ids: list[Id]) -> list[ReactionPreset]:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_save(self, posts: List[ReactionPreset]) -> None:
+    def bulk_save(self, posts: list[ReactionPreset]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_delete(self, ids: List[Id]) -> None:
+    def bulk_delete(self, ids: list[Id]) -> None:
         raise NotImplementedError()

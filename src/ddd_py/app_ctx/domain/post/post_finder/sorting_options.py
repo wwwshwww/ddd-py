@@ -1,6 +1,5 @@
 import abc
 from dataclasses import dataclass
-from typing import List
 
 
 class SortingType(metaclass=abc.ABCMeta):
@@ -31,4 +30,4 @@ class SortingTypePostTime(SortingType): ...
 
 @dataclass
 class SortingOptions:
-    orders: List[SortingType]
+    orders: list[SortingType]

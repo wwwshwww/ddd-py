@@ -1,6 +1,5 @@
 import copy
 import datetime
-from typing import Tuple
 
 import bcrypt
 from ddd_py.auth_ctx.domain.user import user
@@ -77,7 +76,7 @@ class UserSession:
         return self._expires_at
 
 
-def generate(user_id: user.Id, now: datetime.datetime) -> Tuple[UserSession, Token]:
+def generate(user_id: user.Id, now: datetime.datetime) -> tuple[UserSession, Token]:
     i = generate_id()
     token = generate_token()
     hashed_token = bcrypt.hashpw(token.value.encode(), bcrypt.gensalt(rounds=HASH_COST))

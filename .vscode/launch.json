@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "db_api",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "_tameshi.db_api:app",
+                "--reload"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "adapter_ex",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "_tameshi.adapter_ex:app",
+                "--reload"
+            ],
+            "jinja": true
+        }
+    ]
+}

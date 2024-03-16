@@ -28,7 +28,7 @@ class Usecase:
         self.user_repository = ur
         self.user_finder = uf
 
-    def start(self, si: StartInput) -> StartOutput:
+    async def start(self, si: StartInput) -> StartOutput:
         try:
             aus = auth_session.generate_auth_session(
                 auth_session.ClientState(si.client_state),
@@ -43,10 +43,10 @@ class Usecase:
 
         return StartOutput(aus.id)
 
-    def login(self, li: LoginInput) -> LoginOutput:
-        now = datetime.now()
-
+    async def login(self, li: LoginInput) -> LoginOutput:
         try:
+            now = datetime.now()
+
             aus_ids = self.auth_session_finder.find(
                 auth_session_finder.FilteringOptions(id_in=[li.auth_session_id])
             )

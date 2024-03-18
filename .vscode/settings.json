@@ -1,6 +1,7 @@
 {
     "python.testing.pytestArgs": [
-        "src"
+        "src",
+        "_tameshi"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true

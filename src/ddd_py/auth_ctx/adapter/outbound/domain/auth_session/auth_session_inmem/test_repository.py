@@ -1,4 +1,3 @@
-import copy
 import unittest
 from datetime import datetime
 
@@ -20,13 +19,20 @@ class TestRepository(unittest.TestCase):
     def setUp(self):
         data_store.clear()
         for e in self.fixtures:
-            data_store[e.id] = copy.deepcopy(e)
+            data_store[e.id] = e
 
     def test_get(self):
         repo = Repository()
+
         aus0 = repo.get(self.fixture_ids[0])
         print(f"[actual]: {id(aus0)}, [expected]: {id(self.fixtures[0])}")
         self.assertTrue(aus0 == self.fixtures[0])
+
+        auss = repo.bulk_get(self.fixture_ids)
+        actual = list(auss.values())
+        excepted = list(self.fixtures)
+
+        self.assertCountEqual(actual, excepted)
 
 
 if __name__ == "__main__":

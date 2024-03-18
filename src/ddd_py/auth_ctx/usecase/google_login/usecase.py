@@ -34,7 +34,7 @@ class Usecase:
                 auth_session.ClientState(si.client_state),
                 datetime.now(),
             )
-            self.auth_session_repository.bulk_save([aus])
+            self.auth_session_repository.save(aus)
 
         except auth_session.DomainError as e:
             raise DomainError() from e
@@ -53,14 +53,14 @@ class Usecase:
             if len(aus_ids) == 0:
                 raise UnauthorizedError("auth session is invalid")
 
-            aus = self.auth_session_repository.bulk_get(aus_ids)[0]
+            aus = self.auth_session_repository.get(aus_ids[0])
             if aus.is_expired(now):
-                self.auth_session_repository.bulk_delete([aus])
+                self.auth_session_repository.delete(aus)
                 raise UnauthorizedError("auth session is expired")
 
             idp_resp = self.usecase_port.code2token(li.code)
 
-            self.auth_session_repository.bulk_delete([aus])
+            self.auth_session_repository.delete(aus)
 
             # TODO: verify id token
             found_user_ids = self.user_finder.find(
@@ -72,15 +72,15 @@ class Usecase:
             # user が存在しなければ新規登録
             u: user.User
             if len(found_user_ids) == 0:
-                ui = self.user_repository.new_ids(1)[0]
+                ui = self.user_repository.new_id()
                 ugp = user.GoogleProfile(user.ProviderSubject(idp_resp.sub))
                 u = user.User(ui, ugp)
-                self.user_repository.bulk_save([u])
+                self.user_repository.save(u)
             else:
-                u = self.user_repository.bulk_get(found_user_ids)[0]
+                u = self.user_repository.get(found_user_ids[0])
 
             us, us_token = user_session.generate(u.id, now)
-            self.user_session_repository.bulk_save([us])
+            self.user_session_repository.save(us)
 
         except auth_session.DomainError as e:
             raise DomainError() from e

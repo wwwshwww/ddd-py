@@ -6,7 +6,11 @@ from .user_session import UserSession
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def bulk_get(self, ids: list[Id]) -> list[UserSession]:
+    def bulk_get(self, ids: list[Id]) -> dict[Id, UserSession]:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def get(self, id: Id) -> UserSession:
         raise NotImplementedError()
 
     @abc.abstractmethod
@@ -14,5 +18,13 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
+    def save(self, post: UserSession) -> None:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
     def bulk_delete(self, ids: list[Id]) -> None:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def delete(self, id: Id) -> None:
         raise NotImplementedError()

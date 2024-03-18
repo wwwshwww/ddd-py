@@ -10,7 +10,7 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_get(self, ids: list[Id]) -> list[ReactionPreset]:
+    def bulk_get(self, ids: list[Id]) -> dict[Id, ReactionPreset]:
         raise NotImplementedError()
 
     @abc.abstractmethod

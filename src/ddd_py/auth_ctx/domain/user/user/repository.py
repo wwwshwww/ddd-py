@@ -10,7 +10,15 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_get(self, ids: list[Id]) -> list[User]:
+    def new_id(self) -> Id:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def bulk_get(self, ids: list[Id]) -> dict[Id, User]:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def get(self, id: Id) -> User:
         raise NotImplementedError()
 
     @abc.abstractmethod
@@ -18,5 +26,13 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
+    def save(self, post: User) -> None:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
     def bulk_delete(self, ids: list[Id]) -> None:
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def delete(self, id: Id) -> None:
         raise NotImplementedError()

@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  test:run:
+    desc: Run tests
+    cmds:
+      - python -m unittest discover -s ./src/ -p 'test_*.py'

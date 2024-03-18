@@ -1,4 +1,5 @@
 import datetime
+from typing import Self
 
 from .client_state import ClientState
 from .error import DomainError
@@ -41,6 +42,25 @@ class AuthSession:
     @property
     def expired_at(self) -> datetime.datetime:
         return self._expired_at
+
+    def is_equivalent(self, other: Self) -> bool:
+        return (
+            self.id == other.id
+            and self.app_route == other.app_route
+            and self.started_at == other.started_at
+            and self.expired_at == other.expired_at
+        )
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, AuthSession):
+            return False
+
+        return (
+            self._id == other._id
+            and self._app_route == other._app_route
+            and self._started_at == other._started_at
+            and self._expired_at == other._expired_at
+        )
 
 
 def generate_auth_session(

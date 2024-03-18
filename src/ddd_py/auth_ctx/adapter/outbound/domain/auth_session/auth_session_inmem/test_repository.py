@@ -6,7 +6,6 @@ from deepdiff import DeepDiff
 
 from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_inmem.repository import (
     Repository,
-    data_store,
 )
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 
@@ -22,10 +21,8 @@ dummy_ids: list[auth_session.Id] = [e.id for e in dummies]
 @pytest.fixture
 def repo():
     print("\n******* initialized")
-    data_store.clear()
-    for e in dummies:
-        data_store[e.id] = copy.deepcopy(e)
-    yield Repository()
+    data_store = {e.id: copy.deepcopy(e) for e in dummies}
+    yield Repository(data_store=data_store)
     print("******* closed")
 
 

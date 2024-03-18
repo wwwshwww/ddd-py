@@ -1,10 +1,11 @@
 from collections.abc import Generator
 from typing import Annotated
 
-from ddd_py.auth_ctx.usecase import google_login
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
+
+from ddd_py.auth_ctx.usecase import google_login
 
 from .model import LoginResponse
 

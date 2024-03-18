@@ -1,5 +1,8 @@
-import unittest
+import copy
 from datetime import datetime
+
+import pytest
+from deepdiff import DeepDiff
 
 from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_inmem.repository import (
     Repository,
@@ -7,33 +10,33 @@ from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_inmem.rep
 )
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 
+dummies: list[auth_session.AuthSession] = [
+    auth_session.generate_auth_session("", datetime(2011, 11, 11, 0, 0, 0, 0)),
+    auth_session.generate_auth_session("", datetime(2011, 11, 12, 0, 0, 0, 0)),
+    auth_session.generate_auth_session("", datetime(2011, 11, 13, 0, 0, 0, 0)),
+]
 
-class TestRepository(unittest.TestCase):
-    fixtures: list[auth_session.AuthSession] = [
-        auth_session.generate_auth_session("", datetime(2011, 11, 11, 0, 0, 0, 0)),
-        auth_session.generate_auth_session("", datetime(2011, 11, 12, 0, 0, 0, 0)),
-        auth_session.generate_auth_session("", datetime(2011, 11, 13, 0, 0, 0, 0)),
-    ]
-    fixture_ids: list[auth_session.Id] = [e.id for e in fixtures]
-
-    def setUp(self):
-        data_store.clear()
-        for e in self.fixtures:
-            data_store[e.id] = e
-
-    def test_get(self):
-        repo = Repository()
-
-        aus0 = repo.get(self.fixture_ids[0])
-        print(f"[actual]: {id(aus0)}, [expected]: {id(self.fixtures[0])}")
-        self.assertTrue(aus0 == self.fixtures[0])
-
-        auss = repo.bulk_get(self.fixture_ids)
-        actual = list(auss.values())
-        excepted = list(self.fixtures)
-
-        self.assertCountEqual(actual, excepted)
+dummy_ids: list[auth_session.Id] = [e.id for e in dummies]
 
 
-if __name__ == "__main__":
-    unittest.main()
+@pytest.fixture
+def repo():
+    print("\n******* initialized")
+    data_store.clear()
+    for e in dummies:
+        data_store[e.id] = copy.deepcopy(e)
+    yield Repository()
+    print("******* closed")
+
+
+def test_get(repo: auth_session.Repository):  # pylint: disable=W0621
+    aus0 = repo.get(dummy_ids[0])
+    assert aus0 == dummies[0]
+
+    auss = repo.bulk_get(dummy_ids)
+    actual = list(auss.values())
+
+    print(f"[actual ids]: {[id(e) for e in actual]}")
+    print(f"[expected ids]: {[id(e) for e in dummies]}")
+
+    assert not DeepDiff(actual, dummies, ignore_order=True)

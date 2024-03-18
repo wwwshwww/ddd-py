@@ -23,6 +23,8 @@ debugpy==1.8.1
     # via ipykernel
 decorator==5.1.1
     # via ipython
+deepdiff==6.7.1
+    # via ddd-py
 executing==2.0.1
     # via stack-data
 fastapi==0.110.0
@@ -53,6 +55,8 @@ matplotlib-inline==0.1.6
     # via ipython
 nest-asyncio==1.6.0
     # via ipykernel
+ordered-set==4.1.0
+    # via deepdiff
 packaging==24.0
     # via ipykernel
     # via pytest

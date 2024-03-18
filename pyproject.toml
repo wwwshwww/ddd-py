@@ -8,6 +8,7 @@ dependencies = [
     "bcrypt>=4.1.2",
     "ipykernel>=6.29.3",
     "uvicorn[standard]>=0.28.0",
+    "pytest>=8.1.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

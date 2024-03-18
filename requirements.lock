@@ -35,6 +35,8 @@ httptools==0.6.1
     # via uvicorn
 idna==3.6
     # via anyio
+iniconfig==2.0.0
+    # via pytest
 ipykernel==6.29.3
     # via ddd-py
 ipython==8.22.2
@@ -53,12 +55,15 @@ nest-asyncio==1.6.0
     # via ipykernel
 packaging==24.0
     # via ipykernel
+    # via pytest
 parso==0.8.3
     # via jedi
 pexpect==4.9.0
     # via ipython
 platformdirs==4.2.0
     # via jupyter-core
+pluggy==1.4.0
+    # via pytest
 prompt-toolkit==3.0.43
     # via ipython
 psutil==5.9.8
@@ -71,6 +76,8 @@ pydantic==1.10.14
     # via fastapi
 pygments==2.17.2
     # via ipython
+pytest==8.1.1
+    # via ddd-py
 python-dateutil==2.9.0.post0
     # via jupyter-client
 python-dotenv==1.0.1

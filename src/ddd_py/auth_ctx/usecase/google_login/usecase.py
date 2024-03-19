@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
 
 from ddd_py.auth_ctx.domain.auth_session import auth_session, auth_session_finder
@@ -9,7 +10,17 @@ from .error import DomainError, PortError, RepositoryError, UnauthorizedError
 from .port import Port
 
 
-class Usecase:
+class Usecase(metaclass=ABCMeta):
+    @abstractmethod
+    async def start(self, si: StartInput) -> StartOutput:
+        pass
+
+    @abstractmethod
+    async def login(self, li: LoginInput) -> LoginOutput:
+        pass
+
+
+class UsecaseImpl(Usecase):
     def __init__(
         self,
         up: Port,

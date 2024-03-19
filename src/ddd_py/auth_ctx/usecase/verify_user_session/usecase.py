@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
 
 from ddd_py.auth_ctx.domain.user_session import user_session
@@ -11,11 +12,17 @@ from ddd_py.auth_ctx.usecase.verify_user_session.error import (
 from .dto import Input, Output
 
 
-class Usecase:
+class Usecase(metaclass=ABCMeta):
+    @abstractmethod
+    async def verify(self, target: Input) -> Output:
+        pass
+
+
+class UsecaseImpl(Usecase):
     def __init__(self, usr: user_session.Repository):
         self.user_session_repository = usr
 
-    def verify(self, target: Input) -> Output:
+    async def verify(self, target: Input) -> Output:
         now = datetime.now()
 
         try:

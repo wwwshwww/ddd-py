@@ -7,10 +7,11 @@ class A:
         print(f"call {i}")
 
 
-async def aa():
+async def aa() -> str:
     a = A()
     tasks = [a.call(i) for i in range(10)]
     await asyncio.gather(*tasks)
+    return "123"
 
 
 async def hello():
@@ -23,4 +24,10 @@ async def call_hello():
     await hello()
 
 
-asyncio.run(aa())
+def main():
+    print("start")
+    out = asyncio.run(aa())
+    print(f"result: {out}")
+
+
+main()

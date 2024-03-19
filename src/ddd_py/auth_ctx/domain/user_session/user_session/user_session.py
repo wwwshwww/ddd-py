@@ -2,6 +2,7 @@ import copy
 import datetime
 
 import bcrypt
+
 from ddd_py.auth_ctx.domain.user import user
 
 from .error import DomainError
@@ -48,8 +49,11 @@ class UserSession:
         self._expires_at = now
         self._activities_at = now
 
-    def is_valid(self, now: datetime.datetime):
+    def is_expired(self, now: datetime.datetime):
         return self._expires_at > now
+
+    def check_token(self, token: Token):
+        return bcrypt.checkpw(token.value.encode(), self._hashed_token)
 
     @property
     def id(self):

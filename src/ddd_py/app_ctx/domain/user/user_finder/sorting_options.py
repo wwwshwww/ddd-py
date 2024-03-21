@@ -12,9 +12,6 @@ class SortingType(metaclass=abc.ABCMeta):
         raise self.asc
 
 
-class SortingTypeId(SortingType): ...
-
-
 class SortingTypeName(SortingType): ...
 
 

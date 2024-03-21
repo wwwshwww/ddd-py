@@ -1,3 +1,4 @@
+import uuid
 from collections.abc import Generator
 from typing import Annotated
 
@@ -5,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
 
+from ddd_py.auth_ctx.domain.auth_session import auth_session
 from ddd_py.auth_ctx.usecase import google_login
 
 from .model import LoginResponse
@@ -75,7 +77,7 @@ async def start(
     except google_login.UnauthorizedError as e:
         raise HTTPException(status_code=401, detail=str(e)) from e
 
-    url = f"{AUTH_ENDPOINT}?state={start_output.auth_session_id}"
+    url = f"{AUTH_ENDPOINT}?state={str(start_output.auth_session_id.value)}"
 
     return RedirectResponse(url=url, status_code=302)
 
@@ -94,7 +96,10 @@ async def callback(
 ) -> LoginResponse:
     try:
         login_output = await dependencies.login(
-            google_login.LoginInput(auth_session_id=state, code=code)
+            google_login.LoginInput(
+                auth_session_id=auth_session.Id(uuid.UUID(state)),
+                code=code,
+            )
         )
     except google_login.RepositoryError as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
@@ -107,7 +112,7 @@ async def callback(
 
     content = jsonable_encoder(
         LoginResponse(
-            user_id=login_output.user_id,
+            user_id=str(login_output.user_id.value),
             session_token=login_output.session_token,
         )
     )

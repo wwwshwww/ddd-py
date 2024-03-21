@@ -1,6 +1,7 @@
+import uuid
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class Id:
-    value: int
+    value: uuid.UUID

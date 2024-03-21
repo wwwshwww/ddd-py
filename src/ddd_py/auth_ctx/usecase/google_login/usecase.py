@@ -83,7 +83,7 @@ class UsecaseImpl(Usecase):
             # user が存在しなければ新規登録
             u: user.User
             if len(found_user_ids) == 0:
-                ui = self.user_repository.new_id()
+                ui = user.generate_id()
                 ugp = user.GoogleProfile(user.ProviderSubject(idp_resp.sub))
                 u = user.User(ui, ugp)
                 self.user_repository.save(u)

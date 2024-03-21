@@ -6,14 +6,6 @@ from .user import User
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def new_ids(self, num: int) -> list[Id]:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
-    def new_id(self) -> Id:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
     def bulk_get(self, ids: list[Id]) -> dict[Id, User]:
         raise NotImplementedError()
 

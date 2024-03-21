@@ -1,6 +1,8 @@
 import asyncio
+import uuid
 from typing import Annotated
 
+from ddd_py.auth_ctx.domain.user_session import user_session
 from ddd_py.auth_ctx.usecase import verify_user_session
 
 
@@ -13,7 +15,7 @@ class Service:
             result = asyncio.run(
                 self.usecase.verify(
                     verify_user_session.Input(
-                        session_id=session_id,
+                        session_id=user_session.Id(uuid.UUID(session_id)),
                         session_token=session_token,
                     )
                 )

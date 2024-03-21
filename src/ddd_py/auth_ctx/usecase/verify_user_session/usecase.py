@@ -26,7 +26,7 @@ class UsecaseImpl(Usecase):
         now = datetime.now()
 
         try:
-            usi = user_session.Id(target.session_id)
+            usi = target.session_id
 
             # パフォーマンスを考慮し finder を使わず1回のクエリでの取得を試みる
             us = self.user_session_repository.get(usi)
@@ -50,4 +50,4 @@ class UsecaseImpl(Usecase):
         except InvalidSessionTokenError as e:
             raise e
 
-        return Output(user_id=us.user_id.value)
+        return Output(user_id=us.user_id)

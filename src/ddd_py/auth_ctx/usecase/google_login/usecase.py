@@ -102,4 +102,4 @@ class UsecaseImpl(Usecase):
         except UnauthorizedError as e:
             raise e
 
-        return LoginOutput(ui.value, us.id.value, us_token.value)
+        return LoginOutput(u.id, us.id, us_token.value)

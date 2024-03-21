@@ -1,5 +1,9 @@
 from dataclasses import dataclass
 
+from ddd_py.auth_ctx.domain.auth_session import auth_session
+from ddd_py.auth_ctx.domain.user import user
+from ddd_py.auth_ctx.domain.user_session import user_session
+
 
 @dataclass
 class StartInput:
@@ -8,19 +12,19 @@ class StartInput:
 
 @dataclass
 class StartOutput:
-    auth_session_id: str
+    auth_session_id: auth_session.Id
 
 
 @dataclass
 class LoginInput:
-    auth_session_id: str
+    auth_session_id: auth_session.Id
     code: str
 
 
 @dataclass
 class LoginOutput:
-    user_id: int
-    session_id: str
+    user_id: user.Id
+    session_id: user_session.Id
     session_token: str
 
 

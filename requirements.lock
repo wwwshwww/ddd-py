@@ -8,9 +8,13 @@
 #   with-sources: false
 
 -e file:.
+aiodataloader==0.4.0
+    # via ddd-py
 anyio==4.3.0
     # via starlette
     # via watchfiles
+ariadne==0.23.0
+    # via ddd-py
 asttokens==2.4.1
     # via stack-data
 bcrypt==4.1.2
@@ -29,6 +33,8 @@ executing==2.0.1
     # via stack-data
 fastapi==0.110.0
     # via ddd-py
+graphql-core==3.2.3
+    # via ariadne
 greenlet==3.0.3
     # via sqlalchemy
 h11==0.14.0
@@ -101,6 +107,7 @@ sqlalchemy==2.0.28
 stack-data==0.6.3
     # via ipython
 starlette==0.36.3
+    # via ariadne
     # via fastapi
 tornado==6.4
     # via ipykernel
@@ -113,6 +120,8 @@ traitlets==5.14.2
     # via jupyter-core
     # via matplotlib-inline
 typing-extensions==4.10.0
+    # via aiodataloader
+    # via ariadne
     # via fastapi
     # via pydantic
     # via sqlalchemy

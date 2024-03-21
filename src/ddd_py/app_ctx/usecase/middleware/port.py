@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
+from ddd_py.app_ctx.domain.user import user
+
 
 class Port(metaclass=ABCMeta):
     @abstractmethod
@@ -7,5 +9,5 @@ class Port(metaclass=ABCMeta):
         self,
         session_id: str,
         session_token: str,
-    ) -> int:
+    ) -> user.Id:
         pass

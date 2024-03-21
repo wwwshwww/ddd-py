@@ -25,6 +25,17 @@
                 "--reload"
             ],
             "jinja": true
+        },
+        {
+            "name": "graphql_exmaple",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "_tameshi.ariadne_sample:app",
+                "--reload"
+            ],
+            "jinja": true
         }
     ]
 }

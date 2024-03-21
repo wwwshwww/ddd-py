@@ -10,9 +10,9 @@ from .id import Id, generate_id
 from .token import Token, generate_token
 
 EXPIRES_DURATION = datetime.timedelta(
-    hours=12
+    days=1
 )  # 最後のアクティビティからセッションが切れるまでの時間
-LIFE_SPAN = datetime.timedelta(days=3)  # セッションの生存期間上限
+LIFE_SPAN = datetime.timedelta(days=14)  # セッションの生存期間上限
 HASH_COST = 4
 
 
@@ -23,7 +23,7 @@ class UserSession:
         user_id: user.Id,
         hashed_token: str,
         created_at: datetime.datetime,
-        activities_at: datetime.datetime,
+        last_activity_at: datetime.datetime,
         expires_at: datetime.datetime,
     ):
         if (expires_at - created_at) > LIFE_SPAN:
@@ -33,12 +33,12 @@ class UserSession:
         self._user_id = user_id
         self._hashed_token = hashed_token
         self._created_at = created_at
-        self._activities_at = activities_at
+        self._last_activity_at = last_activity_at
         self._expires_at = expires_at
 
     def activity(self, now: datetime.datetime):
-        self._activities_at = now
-        expected_expires_at = self._activities_at + EXPIRES_DURATION
+        self._last_activity_at = now
+        expected_expires_at = self._last_activity_at + EXPIRES_DURATION
 
         if (expected_expires_at - self._created_at) > LIFE_SPAN:
             self._expires_at = self._created_at + LIFE_SPAN
@@ -47,7 +47,7 @@ class UserSession:
 
     def invalidate(self, now: datetime.datetime):
         self._expires_at = now
-        self._activities_at = now
+        self._last_activity_at = now
 
     def is_expired(self, now: datetime.datetime):
         return self._expires_at > now
@@ -72,8 +72,8 @@ class UserSession:
         return self._created_at
 
     @property
-    def activities_at(self):
-        return self._activities_at
+    def last_activity_at(self):
+        return self._last_activity_at
 
     @property
     def expires_at(self):

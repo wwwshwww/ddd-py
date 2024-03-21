@@ -40,6 +40,9 @@ class UsecaseImpl(Usecase):
             if not us.check_token(ust):
                 raise InvalidSessionTokenError()
 
+            us.activity(now)
+            self.user_session_repository.save(us)
+
         except user_session.DomainError as e:
             raise UserSessionDomainError() from e
         except user_session.RepositoryGetError as e:

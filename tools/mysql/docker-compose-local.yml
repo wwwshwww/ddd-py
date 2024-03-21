@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  db-local-sv:
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_NAME:-must_set_env}
+      MYSQL_USER: example
+      MYSQL_PASSWORD: pass
+    networks:
+      - local-dayo
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 2s
+      retries: 10
+
+networks:
+  local-dayo:
+    name: ${DB_NETWORK_NAME:-must-set-env}
+    

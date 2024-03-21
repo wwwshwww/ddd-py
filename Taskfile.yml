@@ -1,7 +1,40 @@
 version: '3'
 
+# for local development
+# TODO: CI/CD設計時に根本から見直し
+
+vars:
+  DB_NETWORK_NAME: 
+    sh: echo $DB_NETWORK_NAME
+  DB_NAME: 
+    sh: echo $DB_NAME
+  DB_SCHEMA_PATH:
+    sh: echo $(pwd)/tools/mysql/schema.sql
+  DB_SERVICE_NAME: db-local-sv
+  SQLDEF_IMAGE_TAG: mysqldef-runner
+
 tasks:
   test:run:
     desc: Run tests
     cmds:
       - python -m pytest
+
+  sqldef:build:
+    cmds:
+      - docker build -t {{.SQLDEF_IMAGE_TAG}} --no-cache ./tools/sqldef 
+  
+  db:up:
+    cmds:
+      - docker compose -f "./tools/mysql/docker-compose-local.yml" up -d --build
+  db:down:
+    cmds:
+      - docker compose -f "./tools/mysql/docker-compose-local.yml" down
+  db:dump:
+    cmds:
+      - docker run --rm -it --network {{.DB_NETWORK_NAME}} {{.SQLDEF_IMAGE_TAG}} sh -c "mysqldef -u root -p root -h {{.DB_SERVICE_NAME}} {{.DB_NAME}} --export"
+  db:dryrun:
+    cmds:
+      - docker run --rm -it --network {{.DB_NETWORK_NAME}} -v {{.DB_SCHEMA_PATH}}:/schema.sql {{.SQLDEF_IMAGE_TAG}} sh -c "mysqldef -u root -p root -h {{.DB_SERVICE_NAME}} {{.DB_NAME}} --dry-run --enable-drop-table < schema.sql"
+  db:apply:
+    cmds:
+      - docker run --rm -it --network {{.DB_NETWORK_NAME}} -v {{.DB_SCHEMA_PATH}}:/schema.sql {{.SQLDEF_IMAGE_TAG}} sh -c "mysqldef -u root -p root -h {{.DB_SERVICE_NAME}} {{.DB_NAME}} --enable-drop-table < schema.sql"

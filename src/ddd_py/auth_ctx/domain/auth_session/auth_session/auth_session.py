@@ -12,43 +12,43 @@ class AuthSession:
     def __init__(
         self,
         id: Id,
-        app_route: ClientState,
+        client_state: ClientState,
         started_at: datetime.datetime,
-        expired_at: datetime.datetime,
+        expires_at: datetime.datetime,
     ) -> None:
-        if started_at > expired_at:
+        if started_at > expires_at:
             raise DomainError("started_at must be before expired_at")
 
         self._id = id
-        self._app_route = app_route
+        self._client_state = client_state
         self._started_at = started_at
-        self._expired_at = expired_at
+        self._expires_at = expires_at
 
     def is_expired(self, now: datetime.datetime) -> bool:
-        return self._expired_at < now
+        return self._expires_at < now
 
     @property
     def id(self) -> Id:
         return self._id
 
     @property
-    def app_route(self) -> ClientState:
-        return self._app_route
+    def client_state(self) -> ClientState:
+        return self._client_state
 
     @property
     def started_at(self) -> datetime.datetime:
         return self._started_at
 
     @property
-    def expired_at(self) -> datetime.datetime:
-        return self._expired_at
+    def expires_at(self) -> datetime.datetime:
+        return self._expires_at
 
     def is_equivalent(self, other: Self) -> bool:
         return (
             self.id == other.id
-            and self.app_route == other.app_route
+            and self.client_state == other.client_state
             and self.started_at == other.started_at
-            and self.expired_at == other.expired_at
+            and self.expires_at == other.expires_at
         )
 
     def __eq__(self, other: object) -> bool:
@@ -57,9 +57,9 @@ class AuthSession:
 
         return (
             self._id == other._id
-            and self._app_route == other._app_route
+            and self._client_state == other._client_state
             and self._started_at == other._started_at
-            and self._expired_at == other._expired_at
+            and self._expires_at == other._expires_at
         )
 
 

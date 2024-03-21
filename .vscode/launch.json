@@ -27,12 +27,12 @@
             "jinja": true
         },
         {
-            "name": "graphql_exmaple",
+            "name": "graphql_with_db",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "_tameshi.ariadne_sample:app",
+                "_tameshi.ariadne.with_db:app",
                 "--reload"
             ],
             "jinja": true

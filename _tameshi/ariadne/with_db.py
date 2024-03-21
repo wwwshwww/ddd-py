@@ -4,14 +4,6 @@ from ariadne.asgi.handlers import GraphQLTransportWSHandler
 from fastapi import Depends, FastAPI, Request
 from fastapi.websockets import WebSocket
 
-
-def get_database_session():
-    try:
-        yield "db session"
-    finally:
-        print("closed")
-
-
 type_defs = """
     type Query {
         hello: String!
@@ -45,6 +37,14 @@ graphql_app = GraphQL(
     context_value=get_context_value,
     websocket_handler=GraphQLTransportWSHandler(),
 )
+
+
+def get_database_session():
+    try:
+        yield "db session"
+    finally:
+        print("closed")
+
 
 # Create FastAPI instance
 app = FastAPI()

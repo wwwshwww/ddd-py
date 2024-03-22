@@ -39,7 +39,7 @@ CREATE TABLE
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- * resource
+-- * updatable resource
 CREATE TABLE
     `user_current_version` (
         `user_id` BINARY(16) NOT NULL,
@@ -113,7 +113,42 @@ CREATE TABLE
 CREATE TABLE
     `post_generation_process_respond` (
         `post_generation_process_id` BIGINT UNSIGNED NOT NULL,
-        `created_post_id` BIGINT UNSIGNED,
         `result_status` VARCHAR(50) NOT NULL,
+        `created_post_id` BIGINT UNSIGNED,
         CONSTRAINT `post_generation_process_respond_ibfk_1` FOREIGN KEY (`post_generation_process_id`) REFERENCES `post_generation_process` (`id`) ON DELETE CASCADE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- * resource
+CREATE TABLE
+    `reaction_preset` (
+        `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `content` VARCHAR(255) NOT NULL,
+        `created_user_version_id` BIGINT UNSIGNED NOT NULL,
+        `created_at` DATETIME NOT NULL,
+        PRIMARY KEY (`id`),
+        CONSTRAINT `reaction_preset_ibfk_1` FOREIGN KEY (`created_user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- * event
+CREATE TABLE
+    `reaction` (
+        `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `user_version_id` BIGINT UNSIGNED NOT NULL,
+        `post_id` BIGINT UNSIGNED NOT NULL,
+        `reaction_preset_id` BIGINT UNSIGNED NOT NULL,
+        `reacted_at` DATETIME NOT NULL,
+        `approval` BOOLEAN NOT NULL,
+        PRIMARY KEY (`id`),
+        CONSTRAINT `reaction_ibfk_1` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `reaction_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `reaction_ibfk_3` FOREIGN KEY (`reaction_preset_id`) REFERENCES `reaction_preset` (`id`) ON DELETE CASCADE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- * event
+CREATE TABLE
+    `reaction_approval_history` (
+        `reaction_id` BIGINT UNSIGNED NOT NULL,
+        `approval` BOOLEAN NOT NULL,
+        `configured_from` DATETIME NOT NULL,
+        CONSTRAINT `reaction_approval_history_ibfk_1` FOREIGN KEY (`reaction_id`) REFERENCES `reaction` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

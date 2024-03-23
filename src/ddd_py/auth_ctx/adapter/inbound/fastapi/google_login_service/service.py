@@ -77,7 +77,7 @@ async def start(
     except google_login.UnauthorizedError as e:
         raise HTTPException(status_code=401, detail=str(e)) from e
 
-    url = f"{AUTH_ENDPOINT}?state={str(start_output.auth_session_id.value)}"
+    url = f"{AUTH_ENDPOINT}?state={start_output.auth_session_id.value.bytes.hex()}"
 
     return RedirectResponse(url=url, status_code=302)
 
@@ -112,14 +112,14 @@ async def callback(
 
     content = jsonable_encoder(
         LoginResponse(
-            user_id=str(login_output.user_id.value),
+            user_id=login_output.user_id.value.bytes.hex(),
             session_token=login_output.session_token,
         )
     )
     resp = JSONResponse(content=content)
     resp.set_cookie(
         key="sid",
-        value=login_output.auth_session_id,
+        value=login_output.session_id.value.bytes.hex(),
         secure=True,
         httponly=True,
         samesite="lax",

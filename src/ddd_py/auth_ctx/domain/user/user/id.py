@@ -1,6 +1,8 @@
 import uuid
 from dataclasses import dataclass
 
+import ulid
+
 
 @dataclass(frozen=True)
 class Id:
@@ -8,4 +10,4 @@ class Id:
 
 
 def generate_id() -> Id:
-    return Id(uuid.uuid4())
+    return Id(ulid.new().uuid)

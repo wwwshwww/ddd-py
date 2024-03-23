@@ -125,6 +125,8 @@ typing-extensions==4.10.0
     # via fastapi
     # via pydantic
     # via sqlalchemy
+ulid-py==1.1.0
+    # via ddd-py
 uvicorn==0.28.0
     # via ddd-py
     # via uvicorn

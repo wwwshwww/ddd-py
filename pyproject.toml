@@ -12,6 +12,7 @@ dependencies = [
     "deepdiff>=6.7.1",
     "aiodataloader>=0.4.0",
     "ariadne>=0.23.0",
+    "ulid-py>=1.1.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

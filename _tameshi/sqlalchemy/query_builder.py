@@ -1,10 +1,9 @@
 import uuid
 
+from conf import database, host, password, user
+from models import User
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
-
-from .conf import database, host, password, user
-from .models import User
 
 if __name__ == "__main__":
     engine = create_engine(

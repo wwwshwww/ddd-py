@@ -18,4 +18,21 @@
         },
         "editor.defaultFormatter": "charliermarsh.ruff",
     },
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "local my-db",
+            "group": "tameshi",
+            "database": "my-db",
+            "username": "example",
+            "password": "pass"
+        }
+    ],
 }

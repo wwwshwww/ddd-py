@@ -46,7 +46,7 @@ CREATE TABLE
         `user_version_id` BINARY(16) NOT NULL,
         PRIMARY KEY (`user_id`, `user_version_id`),
         CONSTRAINT `user_current_version_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-        CONSTRAINT `user_current_version_ibfk_1` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
+        CONSTRAINT `user_current_version_ibfk_2` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * event
@@ -54,7 +54,7 @@ CREATE TABLE
     `user_version_history` (
         `user_id` BINARY(16) NOT NULL,
         `user_version_id` BINARY(16) NOT NULL,
-        `effective_from` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `effective_from` DATETIME NOT NULL,
         PRIMARY KEY (`user_id`, `user_version_id`),
         CONSTRAINT `user_version_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
         CONSTRAINT `user_version_history_ibfk_2` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE

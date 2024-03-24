@@ -6,10 +6,6 @@ from .reaction import Reaction
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def new_ids(self, num: int) -> list[Id]:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
     def bulk_get(self, ids: list[Id]) -> dict[Id, Reaction]:
         raise NotImplementedError()
 

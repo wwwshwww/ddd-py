@@ -6,10 +6,6 @@ from .reaction_preset import ReactionPreset
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def new_ids(self, num: int) -> list[Id]:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
     def bulk_get(self, ids: list[Id]) -> dict[Id, ReactionPreset]:
         raise NotImplementedError()
 

@@ -28,7 +28,8 @@ CREATE TABLE
     `auth_session` (
         `id` BINARY(16) NOT NULL,
         `client_state` VARCHAR(255),
-        `expires_at` DATETIME,
+        `started_at` DATETIME NOT NULL,
+        `expires_at` DATETIME NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 

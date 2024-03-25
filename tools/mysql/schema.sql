@@ -4,9 +4,10 @@
 -- * resource
 CREATE TABLE
     `user` (
-        `id` BINARY(16) NOT NULL,
+        `id` BINARY(16) NOT NULL PRIMARY KEY,
         `google_sub` VARCHAR(255) NOT NULL,
-        PRIMARY KEY (`id`)
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `user_uk1` (`google_sub`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * updatable resource in event (パフォーマンス面を考慮)

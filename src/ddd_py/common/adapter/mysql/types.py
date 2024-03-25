@@ -1,4 +1,6 @@
 import uuid
+from abc import abstractmethod
+from typing import Any, TypeVar
 
 from sqlalchemy import Dialect, LargeBinary, TypeDecorator
 from sqlalchemy.orm import (
@@ -32,4 +34,9 @@ class UUIDBinary(TypeDecorator):
 
 
 class Base(DeclarativeBase):
-    pass
+    @abstractmethod
+    def extract_fields(self) -> dict[str, Any]:
+        pass
+
+
+RDBModel = TypeVar("RDBModel", bound=Base)

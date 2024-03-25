@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import (
@@ -8,15 +9,13 @@ from sqlalchemy.orm import (
 )
 
 from ddd_py.auth_ctx.domain.auth_session import auth_session
-from ddd_py.common.adapter.mysql import my_base
+from ddd_py.common.adapter.mysql import types
 
 
-class AuthSession(my_base.Base):
+class AuthSession(types.Base):
     __tablename__ = "auth_session"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        my_base.UUIDBinary(length=16), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(types.UUIDBinary(length=16), primary_key=True)
     client_state: Mapped[str] = mapped_column(String(255))
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
@@ -27,6 +26,14 @@ class AuthSession(my_base.Base):
 
     def __repr__(self) -> str:
         return f"<User(id={self.id!r}, client_state={self.client_state!r}, expires_at={self.expires_at!r}>"
+
+    def extract_fields(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "client_state": self.client_state,
+            "started_at": self.started_at,
+            "expires_at": self.expires_at,
+        }
 
 
 def restore(dto: AuthSession) -> auth_session.AuthSession:

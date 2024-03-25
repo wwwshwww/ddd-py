@@ -16,19 +16,19 @@ class Repository(auth_session.Repository):
         if len(ids) == 0:
             return {}
         query = select(AuthSession).where(AuthSession.id.in_(ids))
-        result = await self.db.scalars(query)
-        result_map = {auth_session.Id(row.id): restore(row) for row in result}
+        rows = await self.db.scalars(query)
+        result = {auth_session.Id(row.id): restore(row) for row in rows}
 
-        if len(result_map) != len(ids):
-            found_ids = [auth_session.Id(row.id) for row in result]
+        if len(result) != len(ids):
+            found_ids = [auth_session.Id(row.id) for row in rows]
             raise auth_session.RepositoryGetError(
                 "one or more specified IDs do not exist",
                 [i for i in ids if i not in found_ids],
             )
 
-        return result_map
+        return result
 
-    async def bulk_save(self, posts: list[auth_session.AuthSession]) -> None:
+    async def bulk_save(self, values: list[auth_session.AuthSession]) -> None:
         pass
 
     async def bulk_delete(self, ids: list[auth_session.Id]) -> None:
@@ -42,7 +42,7 @@ class Repository(auth_session.Repository):
 
         return result_map[id]
 
-    async def save(self, post: auth_session.AuthSession) -> None:
+    async def save(self, value: auth_session.AuthSession) -> None:
         pass
 
     async def delete(self, id: auth_session.Id) -> None:

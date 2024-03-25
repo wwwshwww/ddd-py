@@ -10,7 +10,7 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_save(self, posts: list[Reaction]) -> None:
+    def bulk_save(self, values: list[Reaction]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod

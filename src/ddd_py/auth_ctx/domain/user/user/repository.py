@@ -14,11 +14,11 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_save(self, posts: list[User]) -> None:
+    def bulk_save(self, values: list[User]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def save(self, post: User) -> None:
+    def save(self, value: User) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod

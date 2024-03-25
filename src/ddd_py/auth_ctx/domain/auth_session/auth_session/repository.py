@@ -14,11 +14,11 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    async def bulk_save(self, posts: list[AuthSession]) -> None:
+    async def bulk_save(self, values: list[AuthSession]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    async def save(self, post: AuthSession) -> None:
+    async def save(self, value: AuthSession) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod

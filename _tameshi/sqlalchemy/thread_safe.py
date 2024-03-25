@@ -15,7 +15,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import Session
 
-# https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html
+# * https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html
 
 ctx = contextvars.ContextVar("ctx", default="default")
 
@@ -42,13 +42,13 @@ class Repo:
 
     async def read(self) -> None:
         print(f"[{self.identifier}]: read start")
-        # SELECT count(user.id) AS id_count, left(user.google_sub, %s) AS prefix, count(CASE WHEN (user.google_sub LIKE %s) THEN %s END) AS count_1 FROM user GROUP BY prefix
+        # * SELECT count(user.id) AS id_count, left(user.google_sub, %s) AS prefix, count(CASE WHEN (user.google_sub LIKE %s) THEN %s END) AS count_1 FROM user GROUP BY prefix
         count_query = (
             select(
                 # User.google_sub,
                 func.count(User.id).label("id_count"),  # pylint: disable=E1102
                 func.left(User.google_sub, 1).label("prefix"),
-                # prefixが自身のidentifierと一致する場合は数え上げる
+                # * prefixが自身のidentifierと一致する場合は数え上げる
                 func.count(  # pylint: disable=E1102
                     case(
                         (User.google_sub.like(f"{self.identifier}-%"), 1),

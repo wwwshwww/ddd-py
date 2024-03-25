@@ -3,11 +3,12 @@ import copy
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 
 
+# TODO: fix for async
 class Repository(auth_session.Repository):
     def __init__(self, data_store: dict[auth_session.Id, auth_session.AuthSession]):
         self.data_store = data_store
 
-    def bulk_get(
+    async def bulk_get(
         self, ids: list[auth_session.Id]
     ) -> dict[auth_session.Id, auth_session.AuthSession]:
         result: dict[auth_session.Id, auth_session.AuthSession] = {}
@@ -25,18 +26,18 @@ class Repository(auth_session.Repository):
 
         return result
 
-    def get(self, id: auth_session.Id) -> auth_session.AuthSession:
+    async def get(self, id: auth_session.Id) -> auth_session.AuthSession:
         return self.bulk_get([id])[id]
 
-    def bulk_save(self, posts: list[auth_session.AuthSession]) -> None:
+    async def bulk_save(self, posts: list[auth_session.AuthSession]) -> None:
         for d in posts:
             self.data_store[d.id] = copy.deepcopy(d)
         return
 
-    def save(self, post: auth_session.AuthSession) -> None:
+    async def save(self, post: auth_session.AuthSession) -> None:
         return self.bulk_save([post])
 
-    def bulk_delete(self, ids: list[auth_session.Id]) -> None:
+    async def bulk_delete(self, ids: list[auth_session.Id]) -> None:
         not_found_ids: list[auth_session.Id] = []
         for i in ids:
             if i not in self.data_store:
@@ -51,5 +52,5 @@ class Repository(auth_session.Repository):
 
         return
 
-    def delete(self, id: auth_session.Id) -> None:
+    async def delete(self, id: auth_session.Id) -> None:
         return self.bulk_delete([id])

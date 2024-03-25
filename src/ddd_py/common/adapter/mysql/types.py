@@ -2,14 +2,14 @@ import uuid
 from abc import abstractmethod
 from typing import Any, TypeVar
 
-from sqlalchemy import Dialect, LargeBinary, TypeDecorator
+from sqlalchemy import BINARY, Dialect, TypeDecorator
 from sqlalchemy.orm import (
     DeclarativeBase,
 )
 
 
 class UUIDBinary(TypeDecorator):
-    impl = LargeBinary
+    impl = BINARY(16)
 
     def process_bind_param(
         self, value: uuid.UUID | None, dialect: Dialect

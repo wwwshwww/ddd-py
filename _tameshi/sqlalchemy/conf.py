@@ -1,4 +1,4 @@
-user = "example"
-password = "pass"
+user = "root"
+password = "root"
 host = "localhost"
 database = "my-db"

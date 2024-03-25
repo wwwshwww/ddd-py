@@ -21,10 +21,14 @@ asttokens==2.4.1
     # via stack-data
 bcrypt==4.1.2
     # via ddd-py
+cffi==1.16.0
+    # via cryptography
 click==8.1.7
     # via uvicorn
 comm==0.2.2
     # via ipykernel
+cryptography==42.0.5
+    # via ddd-py
 debugpy==1.8.1
     # via ipykernel
 decorator==5.1.1
@@ -84,6 +88,8 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
+pycparser==2.21
+    # via cffi
 pydantic==1.10.14
     # via fastapi
 pygments==2.17.2
@@ -92,6 +98,9 @@ pymysql==1.1.0
     # via aiomysql
     # via ddd-py
 pytest==8.1.1
+    # via ddd-py
+    # via pytest-asyncio
+pytest-asyncio==0.23.6
     # via ddd-py
 python-dateutil==2.9.0.post0
     # via jupyter-client

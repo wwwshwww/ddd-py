@@ -2,7 +2,7 @@ import uuid
 from abc import abstractmethod
 from typing import Any
 
-from sqlalchemy import Dialect, LargeBinary, String, TypeDecorator
+from sqlalchemy import BINARY, Dialect, String, TypeDecorator
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -11,7 +11,7 @@ from sqlalchemy.orm import (
 
 
 class UUIDBinary(TypeDecorator):
-    impl = LargeBinary
+    impl = BINARY(16)
 
     def process_bind_param(
         self, value: uuid.UUID | None, dialect: Dialect
@@ -44,7 +44,7 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = "user"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUIDBinary(length=16), primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(UUIDBinary(), primary_key=True)
     google_sub: Mapped[str] = mapped_column(String(255), nullable=False)
 
     def __repr__(self) -> str:

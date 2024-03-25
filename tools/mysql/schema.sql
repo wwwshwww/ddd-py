@@ -4,7 +4,7 @@
 -- * resource
 CREATE TABLE
     `user` (
-        `id` BINARY(16) NOT NULL PRIMARY KEY,
+        `id` BINARY(16) NOT NULL,
         `google_sub` VARCHAR(255) NOT NULL,
         PRIMARY KEY (`id`),
         UNIQUE KEY `user_uk1` (`google_sub`)

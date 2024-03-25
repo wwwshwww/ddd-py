@@ -1,9 +1,10 @@
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ddd_py.auth_ctx.domain.auth_session import auth_session
+from ddd_py.common.adapter.mysql.utils import simple_upsert_stmt
 
-from .models import AuthSession, restore
+from .models import AuthSession, decode, encode
 
 
 class Repository(auth_session.Repository):
@@ -17,7 +18,7 @@ class Repository(auth_session.Repository):
             return {}
         query = select(AuthSession).where(AuthSession.id.in_(ids))
         rows = await self.db.scalars(query)
-        result = {auth_session.Id(row.id): restore(row) for row in rows}
+        result = {auth_session.Id(row.id): decode(row) for row in rows}
 
         if len(result) != len(ids):
             found_ids = [auth_session.Id(row.id) for row in rows]
@@ -29,10 +30,19 @@ class Repository(auth_session.Repository):
         return result
 
     async def bulk_save(self, values: list[auth_session.AuthSession]) -> None:
-        pass
+        if len(values) == 0:
+            return
+        data = [encode(value) for value in values]
+        command = simple_upsert_stmt(data)
+        await self.db.execute(command)
+        return
 
     async def bulk_delete(self, ids: list[auth_session.Id]) -> None:
-        pass
+        if len(ids) == 0:
+            return
+        command = delete(AuthSession).where(AuthSession.id.in_(ids))
+        await self.db.execute(command)
+        return
 
     async def get(self, id: auth_session.Id) -> auth_session.AuthSession:
         try:
@@ -43,7 +53,13 @@ class Repository(auth_session.Repository):
         return result_map[id]
 
     async def save(self, value: auth_session.AuthSession) -> None:
-        pass
+        try:
+            await self.bulk_save([value])
+        except auth_session.RepositorySaveError as e:
+            raise e
 
     async def delete(self, id: auth_session.Id) -> None:
-        pass
+        try:
+            await self.bulk_delete([id])
+        except auth_session.RepositoryDeleteError as e:
+            raise e

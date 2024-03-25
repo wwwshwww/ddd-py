@@ -31,8 +31,8 @@
             "name": "local my-db",
             "group": "tameshi",
             "database": "my-db",
-            "username": "example",
-            "password": "pass"
+            "username": "root",
+            "password": "root"
         }
     ],
 }

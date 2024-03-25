@@ -7,13 +7,14 @@ from sqlalchemy.orm import (
     mapped_column,
 )
 
+from ddd_py.auth_ctx.domain.user import user
 from ddd_py.common.adapter.mysql import types
 
 
 class User(types.Base):
     __tablename__ = "user"
 
-    id: Mapped[uuid.UUID] = mapped_column(types.UUIDBinary(length=16), primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(types.UUIDBinary(), primary_key=True)
     google_sub: Mapped[str] = mapped_column(String(255), nullable=False)
 
     def __repr__(self) -> str:
@@ -24,3 +25,17 @@ class User(types.Base):
             "id": self.id,
             "google_sub": self.google_sub,
         }
+
+
+def decode(dto: User) -> user.User:
+    return user.User(
+        id=user.Id(dto.id),
+        google_profile=user.GoogleProfile(user.ProviderSubject(dto.google_sub)),
+    )
+
+
+def encode(aggregate: user.User) -> User:
+    return User(
+        id=aggregate.id.value,
+        google_sub=aggregate.google_profile.provider_subject.value,
+    )

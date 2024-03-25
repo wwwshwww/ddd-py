@@ -15,7 +15,7 @@ from ddd_py.common.adapter.mysql import types
 class AuthSession(types.Base):
     __tablename__ = "auth_session"
 
-    id: Mapped[uuid.UUID] = mapped_column(types.UUIDBinary(length=16), primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(types.UUIDBinary(), primary_key=True)
     client_state: Mapped[str] = mapped_column(String(255))
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
@@ -36,10 +36,19 @@ class AuthSession(types.Base):
         }
 
 
-def restore(dto: AuthSession) -> auth_session.AuthSession:
+def decode(dto: AuthSession) -> auth_session.AuthSession:
     return auth_session.AuthSession(
-        id=auth_session.Id(uuid.UUID(bytes=dto.id)),
+        id=auth_session.Id(dto.id),
         client_state=auth_session.ClientState(dto.client_state),
         started_at=dto.started_at,
         expires_at=dto.expires_at,
+    )
+
+
+def encode(aggregate: auth_session.AuthSession) -> AuthSession:
+    return AuthSession(
+        id=aggregate.id.value,
+        client_state=aggregate.client_state.value,
+        started_at=aggregate.started_at,
+        expires_at=aggregate.expires_at,
     )

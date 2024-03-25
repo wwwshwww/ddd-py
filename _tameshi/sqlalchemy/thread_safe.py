@@ -28,20 +28,20 @@ class Repo:
         cls.count += 1
 
     def __init__(self, session: Session) -> None:
-        print(f"called: {self.count}")
         self.identifier = copy.deepcopy(self.count)
         self.session = session
+        print(f"[{self.identifier}]: called")
         self.inc()
 
     async def do(self) -> None:
-        print(f"[{self.identifier}]: start")
-        print(f"ctx: {ctx.get()}")
+        print(f"[{self.identifier}]: started")
+        print(f"[{self.identifier}]: ctx: {ctx.get()}")
         await self.read()
         await self.write()
         print(f"[{self.identifier}]: done")
 
     async def read(self) -> None:
-        print(f"[{self.identifier}]: read start")
+        print(f"[{self.identifier}]: read started")
         # * SELECT count(user.id) AS id_count, left(user.google_sub, %s) AS prefix, count(CASE WHEN (user.google_sub LIKE %s) THEN %s END) AS count_1 FROM user GROUP BY prefix
         count_query = (
             select(
@@ -65,12 +65,12 @@ class Repo:
             )
         )
         count_result = await self.session.execute(count_query)
-        print(f"[{self.identifier}]: {count_result.all()}")
+        print(f"[{self.identifier}]: count read: {count_result.all()}")
 
         fetch_query = select(User)
         result = await self.session.scalars(fetch_query)
         for r in result:
-            print(f"[{self.identifier}]: {r}")
+            print(f"[{self.identifier}]: read elements: {r}")
         print(f"[{self.identifier}]: read done")
 
     async def write(self) -> None:
@@ -78,9 +78,9 @@ class Repo:
         await self.session.execute(
             insert(User),
             [
-                # User(id=ulid.new().bytes, google_sub=f"user:{self.identifier}"),
+                # User(id=ulid.new(), google_sub=f"user:{self.identifier}"),
                 {
-                    "id": ulid.new().bytes,
+                    "id": ulid.new(),
                     "google_sub": f"{self.identifier}-{str(uuid.uuid4())}",
                 }
             ],

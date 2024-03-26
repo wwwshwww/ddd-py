@@ -87,13 +87,12 @@ async def initializer(general_engine: AsyncEngine):  # pylint: disable=redefined
         )
 
         async with db_engine.begin() as conn:
-            # tasks = [
-            #     asyncio.create_task(conn.execute(text(sc)))
-            #     for sc in test_utils.table_schemas
-            # ]
-            # await asyncio.gather(*tasks)
-            for sql in table_schemas:
-                await conn.execute(text(sql))
+            tasks = [
+                asyncio.create_task(conn.execute(text(sc))) for sc in table_schemas
+            ]
+            await asyncio.gather(*tasks)
+            # for sql in table_schemas:
+            #     await conn.execute(text(sql))
 
         try:
             yield async_scoped_session_factory

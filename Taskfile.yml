@@ -15,9 +15,9 @@ vars:
 
 tasks:
   test:run:
-    desc: Run tests
+    desc: pytest-xdist でテストを並列実行
     cmds:
-      - python -m pytest
+      - python -m pytest -n auto
 
   sqldef:build:
     cmds:

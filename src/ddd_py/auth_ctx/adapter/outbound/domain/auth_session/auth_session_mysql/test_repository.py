@@ -8,18 +8,19 @@ from sqlalchemy.ext.asyncio import (
     async_scoped_session,
 )
 
+from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_mysql.repository import (
+    Repository,
+)
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 from ddd_py.common.adapter.mysql.conftest import (  # noqa: F401 pylint: disable=W0611
     general_engine,
     initializer,
 )
 
-from .repository import Repository
-
 
 @pytest_asyncio.fixture(scope="function")
-async def auth_session_test_session(initializer):  # pylint: disable=redefined-outer-name
-    label = "auth_session_test"
+async def session(initializer):  # noqa: F811, pylint: disable=W0621
+    label = "auth_session_repo_test"
     session_factory: async_scoped_session[AsyncSession]
     async with initializer(label) as session_factory:
         async with session_factory() as session:
@@ -42,20 +43,18 @@ dummy_ids: list[auth_session.Id] = [e.id for e in dummies]
 
 
 @pytest.mark.asyncio
-async def test_repository(
-    auth_session_test_session: AsyncSession,
-):  # pylint: disable=redefined-outer-name
-    async with auth_session_test_session.begin():
-        repo1 = Repository(auth_session_test_session)
+async def test_repository(session: AsyncSession):  # pylint: disable=W0621
+    async with session.begin():
+        repo1 = Repository(session)
         await repo1.bulk_save(dummies)
 
-    async with auth_session_test_session.begin():
-        repo2 = Repository(auth_session_test_session)
+    async with session.begin():
+        repo2 = Repository(session)
         actual = await repo2.bulk_get(dummy_ids)
         assert not DeepDiff(list(actual.values()), dummies, ignore_order=True)
 
-    async with auth_session_test_session.begin():
-        repo3 = Repository(auth_session_test_session)
+    async with session.begin():
+        repo3 = Repository(session)
         await repo3.bulk_delete(dummy_ids[:2])
         actual = await repo3.bulk_get(dummy_ids[2:])
         assert not DeepDiff(list(actual.values()), dummies[2:], ignore_order=True)

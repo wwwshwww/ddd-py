@@ -7,5 +7,5 @@ from .filtering_options import FilteringOptions
 
 class Finder(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def find(self, filtering_options: FilteringOptions = None) -> list[auth_session.Id]:
+    async def find(self, fo: FilteringOptions = None) -> list[auth_session.Id]:
         raise NotImplementedError()

@@ -53,7 +53,7 @@ class UserSession:
         return self._expires_at > now
 
     def check_token(self, token: Token):
-        return bcrypt.checkpw(token.value.encode(), self._hashed_token)
+        return bcrypt.checkpw(token.value.encode(), self._hashed_token.encode())
 
     @property
     def id(self):
@@ -89,7 +89,7 @@ def generate(user_id: user.Id, now: datetime.datetime) -> tuple[UserSession, Tok
         session = UserSession(
             i,
             user_id,
-            hashed_token,
+            hashed_token.decode(),
             copy.deepcopy(now),
             copy.deepcopy(now),
             copy.deepcopy(now) + EXPIRES_DURATION,

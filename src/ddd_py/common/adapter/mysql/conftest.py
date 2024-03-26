@@ -20,7 +20,8 @@ def load_schema() -> list[str]:
         list[str]: _description_
     """
     schema_path = os.getenv("DB_SCHEMA_PATH")
-    schemas: list[str] = []
+    if schema_path is None:
+        return []
     with open(schema_path, encoding="utf-8", mode="r") as f:
         schemas = f.read().split(";")
     return schemas[:-1]  # 末尾に改行コードとかが入るのでトリムする
@@ -40,7 +41,7 @@ db_host = "localhost"
 # スキーマ定義ファイルのパスは環境変数から取得する。./.envrc に記載済みのため direnv を使用すれば手動設定は不要。
 
 
-async def cleanup_table(session: AsyncSession, tables: list[str] = None):
+async def cleanup_table(session: AsyncSession, tables: list[str] | None = None):
     if tables is None:
         return
 

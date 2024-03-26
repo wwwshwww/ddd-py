@@ -93,7 +93,7 @@ async def callback(
     dependencies: Annotated[google_login.Usecase, Depends(prepare_dependencies)],
     state: str,
     code: str,
-) -> LoginResponse:
+) -> JSONResponse:
     try:
         login_output = await dependencies.login(
             google_login.LoginInput(
@@ -112,7 +112,7 @@ async def callback(
 
     content = jsonable_encoder(
         LoginResponse(
-            user_id=login_output.user_id.value.bytes.hex(),
+            user_id=login_output.user_id,
             session_token=login_output.session_token,
         )
     )

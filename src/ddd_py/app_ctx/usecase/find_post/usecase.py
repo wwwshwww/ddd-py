@@ -7,7 +7,7 @@ from ddd_py.app_ctx.usecase.common import dto
 
 class Usecase(metaclass=ABCMeta):
     @abstractmethod
-    def find(
+    async def find(
         self,
         fo: post_finder.FilteringOptions,
         so: post_finder.SortingOptions,
@@ -21,10 +21,10 @@ class UsecaseImpl(Usecase):
         self.pf = pf
         self.pr = pr
 
-    def find(
+    async def find(
         self,
         fo: post_finder.FilteringOptions,
         so: post_finder.SortingOptions,
         page: Page,
     ) -> list[dto.Post]:
-        pass
+        return []

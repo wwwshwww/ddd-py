@@ -3,9 +3,15 @@ from datetime import datetime
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 
 dummies: list[auth_session.AuthSession] = [
-    auth_session.generate_auth_session("", datetime(2011, 11, 11, 0, 0, 0, 0)),
-    auth_session.generate_auth_session("", datetime(2011, 11, 12, 0, 0, 0, 0)),
-    auth_session.generate_auth_session("", datetime(2011, 11, 13, 0, 0, 0, 0)),
+    auth_session.generate_auth_session(
+        auth_session.ClientState(""), datetime(2011, 11, 11, 0, 0, 0, 0)
+    ),
+    auth_session.generate_auth_session(
+        auth_session.ClientState(""), datetime(2011, 11, 12, 0, 0, 0, 0)
+    ),
+    auth_session.generate_auth_session(
+        auth_session.ClientState(""), datetime(2011, 11, 13, 0, 0, 0, 0)
+    ),
 ]
 
 dummy_ids: list[auth_session.Id] = [e.id for e in dummies]

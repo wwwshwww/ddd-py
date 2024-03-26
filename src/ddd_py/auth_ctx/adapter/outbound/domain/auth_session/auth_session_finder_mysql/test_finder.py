@@ -1,5 +1,7 @@
 import logging
 import uuid
+from collections.abc import Callable
+from contextlib import _AsyncGeneratorContextManager
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -27,12 +29,15 @@ logger = logging.getLogger(__name__)
 
 
 @pytest_asyncio.fixture(scope="function")
-async def session(initializer):  # noqa: F811, pylint: disable=W0621
+async def session(
+    initializer: Callable[  # noqa: F811, pylint: disable=W0621
+        [str], _AsyncGeneratorContextManager[async_scoped_session[AsyncSession]]
+    ],
+):
     label = "auth_session_finder_test"
-    session_factory: async_scoped_session[AsyncSession]
     async with initializer(label) as session_factory:
-        async with session_factory() as session:
-            yield session
+        async with session_factory() as ss:
+            yield ss
 
 
 data: list[AuthSession] = [

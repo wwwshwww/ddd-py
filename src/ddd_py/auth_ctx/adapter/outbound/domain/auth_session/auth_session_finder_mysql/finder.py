@@ -14,7 +14,7 @@ class Finder(auth_session_finder.Finder):
 
     async def find(
         self,
-        fo: auth_session_finder.FilteringOptions = None,
+        fo: auth_session_finder.FilteringOptions | None = None,
     ) -> list[Id]:
         try:
             q = select(AuthSession.id).select_from(AuthSession)

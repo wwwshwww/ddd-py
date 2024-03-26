@@ -1,7 +1,7 @@
 import asyncio
 import uuid
-from typing import Annotated
 
+from ddd_py.auth_ctx.domain.user import user
 from ddd_py.auth_ctx.domain.user_session import user_session
 from ddd_py.auth_ctx.usecase import verify_user_session
 
@@ -10,7 +10,7 @@ class Service:
     def __init__(self, usecase: verify_user_session.Usecase):
         self.usecase = usecase
 
-    def verify(self, session_id: str, session_token: str) -> Annotated[int, "user_id"]:
+    def verify(self, session_id: str, session_token: str) -> user.Id:
         try:
             result = asyncio.run(
                 self.usecase.verify(

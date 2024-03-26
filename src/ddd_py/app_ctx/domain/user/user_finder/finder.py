@@ -8,9 +8,9 @@ from .sorting_options import SortingOptions
 
 class Finder(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def find(
+    async def find(
         self,
-        filtering_options: FilteringOptions = None,
-        sorting_options: SortingOptions = None,
+        filtering_options: FilteringOptions | None = None,
+        sorting_options: SortingOptions | None = None,
     ) -> list[user.Id]:
         raise NotImplementedError()

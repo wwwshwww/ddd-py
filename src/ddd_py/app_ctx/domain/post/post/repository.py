@@ -6,13 +6,13 @@ from .post import Post
 
 class Repository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def bulk_get(self, ids: list[Id]) -> dict[Id, Post]:
+    async def bulk_get(self, ids: list[Id]) -> dict[Id, Post]:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_save(self, values: list[Post]) -> None:
+    async def bulk_save(self, values: list[Post]) -> None:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def bulk_delete(self, ids: list[Id]) -> None:
+    async def bulk_delete(self, ids: list[Id]) -> None:
         raise NotImplementedError()

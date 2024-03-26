@@ -1,3 +1,5 @@
+from collections.abc import Callable
+from contextlib import _AsyncGeneratorContextManager
 from datetime import datetime
 
 import pytest
@@ -19,12 +21,16 @@ from ddd_py.common.adapter.mysql.conftest import (  # noqa: F401 pylint: disable
 
 
 @pytest_asyncio.fixture(scope="function")
-async def session(initializer):  # noqa: F811, pylint: disable=W0621
+async def session(
+    initializer: Callable[  # noqa: F811, pylint: disable=W0621
+        [str], _AsyncGeneratorContextManager[async_scoped_session[AsyncSession]]
+    ],
+):
     label = "auth_session_repo_test"
     session_factory: async_scoped_session[AsyncSession]
     async with initializer(label) as session_factory:
-        async with session_factory() as session:
-            yield session
+        async with session_factory() as ss:
+            yield ss
 
 
 dummies: list[auth_session.AuthSession] = [

@@ -1,42 +1,22 @@
 import abc
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Optional
 
 
+@dataclass
 class SortingType(metaclass=abc.ABCMeta):
-    def __init__(self, asc: bool):
-        self.asc = asc
-
-    def is_asc(self) -> bool:
-        raise self.asc
+    asc: bool
 
 
+@dataclass
 class SortingTypeName(SortingType): ...
 
 
-class SortingTypeGetReactionNum(SortingType):
-    def __init__(
-        self,
-        asc: bool,
-        start_range_incl: Optional[datetime] = None,
-        end_range_excl: Optional[datetime] = None,
-    ) -> None:
-        super().__init__(asc)
-        self.start_range_incl = start_range_incl
-        self.end_range_excl = end_range_excl
+@dataclass
+class SortingTypeGetReactionNum(SortingType): ...
 
 
-class SortingTypeGiveReactionNum(SortingType):
-    def __init__(
-        self,
-        asc: bool,
-        start_range_incl: Optional[datetime] = None,
-        end_range_excl: Optional[datetime] = None,
-    ) -> None:
-        super().__init__(asc)
-        self.start_range_incl = start_range_incl
-        self.end_range_excl = end_range_excl
+@dataclass
+class SortingTypeGiveReactionNum(SortingType): ...
 
 
 @dataclass

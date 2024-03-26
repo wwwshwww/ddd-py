@@ -2,20 +2,20 @@ import abc
 from dataclasses import dataclass
 
 
+@dataclass
 class SortingType(metaclass=abc.ABCMeta):
-    def __init__(self, asc: bool):
-        self.asc = asc
-
-    def is_asc(self) -> bool:
-        raise self.asc
+    asc: bool
 
 
+@dataclass
 class SortingTypeId(SortingType): ...
 
 
+@dataclass
 class SortingTypeReactionPresetId(SortingType): ...
 
 
+@dataclass
 class SortingTypeReactedAt(SortingType): ...
 
 

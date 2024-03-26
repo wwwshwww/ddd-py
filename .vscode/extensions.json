@@ -3,6 +3,8 @@
         "mkhl.direnv",
         "inferrinizzard.prettier-sql-vscode",
         "charliermarsh.ruff",
-        "ms-python.python"
+        "ms-python.python",
+        "matangover.mypy",
+        "tamasfe.even-better-toml"
     ]
 }

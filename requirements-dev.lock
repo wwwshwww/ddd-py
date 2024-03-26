@@ -54,7 +54,6 @@ idna==3.6
 iniconfig==2.0.0
     # via pytest
 ipykernel==6.29.3
-    # via ddd-py
 ipython==8.22.2
     # via ipykernel
 jedi==0.19.1
@@ -67,6 +66,10 @@ jupyter-core==5.7.2
 matplotlib-inline==0.1.6
     # via ipykernel
     # via ipython
+mypy==1.9.0
+    # via ddd-py
+mypy-extensions==1.0.0
+    # via mypy
 nest-asyncio==1.6.0
     # via ipykernel
 ordered-set==4.1.0
@@ -142,6 +145,7 @@ typing-extensions==4.10.0
     # via aiodataloader
     # via ariadne
     # via fastapi
+    # via mypy
     # via pydantic
     # via sqlalchemy
 ulid-py==1.1.0

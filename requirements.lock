@@ -17,28 +17,18 @@ anyio==4.3.0
     # via watchfiles
 ariadne==0.23.0
     # via ddd-py
-asttokens==2.4.1
-    # via stack-data
 bcrypt==4.1.2
     # via ddd-py
 cffi==1.16.0
     # via cryptography
 click==8.1.7
     # via uvicorn
-comm==0.2.2
-    # via ipykernel
 cryptography==42.0.5
     # via ddd-py
-debugpy==1.8.1
-    # via ipykernel
-decorator==5.1.1
-    # via ipython
 deepdiff==6.7.1
     # via ddd-py
 execnet==2.0.2
     # via pytest-xdist
-executing==2.0.1
-    # via stack-data
 fastapi==0.110.0
     # via ddd-py
 graphql-core==3.2.3
@@ -53,49 +43,20 @@ idna==3.6
     # via anyio
 iniconfig==2.0.0
     # via pytest
-ipykernel==6.29.3
+mypy==1.9.0
     # via ddd-py
-ipython==8.22.2
-    # via ipykernel
-jedi==0.19.1
-    # via ipython
-jupyter-client==8.6.1
-    # via ipykernel
-jupyter-core==5.7.2
-    # via ipykernel
-    # via jupyter-client
-matplotlib-inline==0.1.6
-    # via ipykernel
-    # via ipython
-nest-asyncio==1.6.0
-    # via ipykernel
+mypy-extensions==1.0.0
+    # via mypy
 ordered-set==4.1.0
     # via deepdiff
 packaging==24.0
-    # via ipykernel
     # via pytest
-parso==0.8.3
-    # via jedi
-pexpect==4.9.0
-    # via ipython
-platformdirs==4.2.0
-    # via jupyter-core
 pluggy==1.4.0
     # via pytest
-prompt-toolkit==3.0.43
-    # via ipython
-psutil==5.9.8
-    # via ipykernel
-ptyprocess==0.7.0
-    # via pexpect
-pure-eval==0.2.2
-    # via stack-data
 pycparser==2.21
     # via cffi
 pydantic==1.10.14
     # via fastapi
-pygments==2.17.2
-    # via ipython
 pymysql==1.1.0
     # via aiomysql
     # via ddd-py
@@ -107,41 +68,22 @@ pytest-asyncio==0.23.6
     # via ddd-py
 pytest-xdist==3.5.0
     # via ddd-py
-python-dateutil==2.9.0.post0
-    # via jupyter-client
 python-dotenv==1.0.1
     # via uvicorn
 pyyaml==6.0.1
     # via uvicorn
-pyzmq==25.1.2
-    # via ipykernel
-    # via jupyter-client
-six==1.16.0
-    # via asttokens
-    # via python-dateutil
 sniffio==1.3.1
     # via anyio
 sqlalchemy==2.0.28
     # via ddd-py
-stack-data==0.6.3
-    # via ipython
 starlette==0.36.3
     # via ariadne
     # via fastapi
-tornado==6.4
-    # via ipykernel
-    # via jupyter-client
-traitlets==5.14.2
-    # via comm
-    # via ipykernel
-    # via ipython
-    # via jupyter-client
-    # via jupyter-core
-    # via matplotlib-inline
 typing-extensions==4.10.0
     # via aiodataloader
     # via ariadne
     # via fastapi
+    # via mypy
     # via pydantic
     # via sqlalchemy
 ulid-py==1.1.0
@@ -153,7 +95,5 @@ uvloop==0.19.0
     # via uvicorn
 watchfiles==0.21.0
     # via uvicorn
-wcwidth==0.2.13
-    # via prompt-toolkit
 websockets==12.0
     # via uvicorn

@@ -6,7 +6,6 @@ dependencies = [
     "fastapi>=0.110.0",
     "sqlalchemy>=2.0.28",
     "bcrypt>=4.1.2",
-    "ipykernel>=6.29.3",
     "uvicorn[standard]>=0.28.0",
     "pytest>=8.1.1",
     "deepdiff>=6.7.1",
@@ -18,6 +17,7 @@ dependencies = [
     "cryptography>=42.0.5",
     "pytest-asyncio>=0.23.6",
     "pytest-xdist>=3.5.0",
+    "mypy>=1.9.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -31,7 +31,9 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "ipykernel>=6.29.3",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -41,3 +43,9 @@ packages = ["src/ddd_py"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["ddd_py"] 
+
+[tool.mypy]
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+# strict = true

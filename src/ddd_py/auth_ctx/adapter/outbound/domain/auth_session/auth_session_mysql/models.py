@@ -46,9 +46,12 @@ def decode(dto: AuthSession) -> auth_session.AuthSession:
 
 
 def encode(aggregate: auth_session.AuthSession) -> AuthSession:
-    return AuthSession(
-        id=aggregate.id.value,
-        client_state=aggregate.client_state.value,
-        started_at=aggregate.started_at,
-        expires_at=aggregate.expires_at,
-    )
+    try:
+        return AuthSession(
+            id=aggregate.id.value,
+            client_state=aggregate.client_state.value,
+            started_at=aggregate.started_at,
+            expires_at=aggregate.expires_at,
+        )
+    except Exception as e:
+        raise e

@@ -1,7 +1,6 @@
 {
     "python.testing.pytestArgs": [
         "src",
-        "_tameshi"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
@@ -28,9 +27,9 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "local my-db",
+            "name": "local my_db",
             "group": "tameshi",
-            "database": "my-db",
+            "database": "my_db",
             "username": "root",
             "password": "root"
         }

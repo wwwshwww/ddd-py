@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "mkhl.direnv",
+        "inferrinizzard.prettier-sql-vscode",
+        "charliermarsh.ruff",
+        "ms-python.python"
+    ]
+}

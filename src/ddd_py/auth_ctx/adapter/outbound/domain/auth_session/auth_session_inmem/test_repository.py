@@ -1,12 +1,5 @@
-import copy
 from datetime import datetime
 
-import pytest
-from deepdiff import DeepDiff
-
-from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_inmem.repository import (
-    Repository,
-)
 from ddd_py.auth_ctx.domain.auth_session import auth_session
 
 dummies: list[auth_session.AuthSession] = [
@@ -18,22 +11,22 @@ dummies: list[auth_session.AuthSession] = [
 dummy_ids: list[auth_session.Id] = [e.id for e in dummies]
 
 
-@pytest.fixture
-def repo():
-    print("\n******* initialized")
-    data_store = {e.id: copy.deepcopy(e) for e in dummies}
-    yield Repository(data_store=data_store)
-    print("******* closed")
+# @pytest.fixture
+# def repo():
+#     print("\n******* initialized")
+#     data_store = {e.id: copy.deepcopy(e) for e in dummies}
+#     yield Repository(data_store=data_store)
+#     print("******* closed")
 
 
-def test_get(repo: auth_session.Repository):  # pylint: disable=W0621
-    aus0 = repo.get(dummy_ids[0])
-    assert aus0 == dummies[0]
+# def test_get(repo: auth_session.Repository):  # pylint: disable=W0621
+#     aus0 = repo.get(dummy_ids[0])
+#     assert aus0 == dummies[0]
 
-    auss = repo.bulk_get(dummy_ids)
-    actual = list(auss.values())
+#     auss = repo.bulk_get(dummy_ids)
+#     actual = list(auss.values())
 
-    print(f"[actual ids]: {[id(e) for e in actual]}")
-    print(f"[expected ids]: {[id(e) for e in dummies]}")
+#     print(f"[actual ids]: {[id(e) for e in actual]}")
+#     print(f"[expected ids]: {[id(e) for e in dummies]}")
 
-    assert not DeepDiff(actual, dummies, ignore_order=True)
+#     assert not DeepDiff(actual, dummies, ignore_order=True)

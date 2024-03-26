@@ -80,8 +80,3 @@ async def setup_session(setup_db: async_scoped_session[AsyncSession]):  # pylint
 @pytest.mark.asyncio
 async def test_func1(setup_session: AsyncSession):  # pylint: disable=redefined-outer-name
     print(setup_session)
-
-
-@pytest.mark.asyncio
-async def test_func2(setup_session: AsyncSession):  # pylint: disable=redefined-outer-name
-    print(setup_session)

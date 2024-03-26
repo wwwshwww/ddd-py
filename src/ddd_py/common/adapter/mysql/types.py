@@ -10,6 +10,7 @@ from sqlalchemy.orm import (
 
 class UUIDBinary(TypeDecorator):
     impl = BINARY(16)
+    cache_ok = True
 
     def process_bind_param(
         self, value: uuid.UUID | None, dialect: Dialect

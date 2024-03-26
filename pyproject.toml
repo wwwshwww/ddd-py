@@ -17,6 +17,7 @@ dependencies = [
     "aiomysql>=0.2.0",
     "cryptography>=42.0.5",
     "pytest-asyncio>=0.23.6",
+    "pytest-xdist>=3.5.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

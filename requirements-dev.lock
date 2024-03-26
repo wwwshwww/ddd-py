@@ -35,6 +35,8 @@ decorator==5.1.1
     # via ipython
 deepdiff==6.7.1
     # via ddd-py
+execnet==2.0.2
+    # via pytest-xdist
 executing==2.0.1
     # via stack-data
 fastapi==0.110.0
@@ -100,7 +102,10 @@ pymysql==1.1.0
 pytest==8.1.1
     # via ddd-py
     # via pytest-asyncio
+    # via pytest-xdist
 pytest-asyncio==0.23.6
+    # via ddd-py
+pytest-xdist==3.5.0
     # via ddd-py
 python-dateutil==2.9.0.post0
     # via jupyter-client

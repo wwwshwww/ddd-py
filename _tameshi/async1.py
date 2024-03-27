@@ -19,7 +19,7 @@ async def consumer(queue: asyncio.Queue):
 
 
 async def main():
-    queue = asyncio.Queue()
+    queue: asyncio.Queue = asyncio.Queue()
     producer_task = asyncio.create_task(producer(queue))
     consumer_task = asyncio.create_task(consumer(queue))
     await producer_task

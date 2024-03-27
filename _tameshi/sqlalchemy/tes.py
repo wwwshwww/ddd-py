@@ -16,18 +16,6 @@ DATABASE_NAME = "test_dayo"
 CLEANUP_TABLES = ["user"]
 
 
-async def cleanup_table(session: AsyncSession, tables: list[str] = None):
-    if tables is None:
-        return
-
-    await session.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
-    tasks = [
-        asyncio.create_task(session.execute(text(f"TRUNCATE TABLE {t}")))
-        for t in tables
-    ]
-    await asyncio.gather(*tasks)
-
-
 @pytest_asyncio.fixture(scope="module")
 async def setup_db():
     init_engine = create_async_engine(

@@ -13,7 +13,6 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import Session
 
 # * https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html
 
@@ -27,7 +26,7 @@ class Repo:
     def inc(cls) -> None:
         cls.count += 1
 
-    def __init__(self, session: Session) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         self.identifier = copy.deepcopy(self.count)
         self.session = session
         print(f"[{self.identifier}]: called")

@@ -13,7 +13,7 @@ RDBModel = TypeVar("RDBModel", bound=Base)
 
 def simple_upsert_stmt(
     values: list[RDBModel],
-    ignore_keys: list[str] = None,
+    ignore_keys: list[str] | None = None,
 ) -> Insert:
     if len(values) == 0:
         raise ValueError("No values provided")

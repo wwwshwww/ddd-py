@@ -12,7 +12,7 @@ class Period:
             raise AttributeError("End date must be greater than start date")
 
 
-@dataclass(frozen=True)
+@dataclass
 class Page:
     offset: int = 0
     limit: int = -1

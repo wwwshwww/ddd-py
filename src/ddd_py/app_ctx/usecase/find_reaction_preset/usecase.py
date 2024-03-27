@@ -2,7 +2,10 @@ from abc import ABCMeta, abstractmethod
 
 from ddd_py.app_ctx.common.context import ctx_requested_user_id
 from ddd_py.app_ctx.common.types import Page
-from ddd_py.app_ctx.domain.post import post, post_finder
+from ddd_py.app_ctx.domain.reaction_preset import (
+    reaction_preset,
+    reaction_preset_finder,
+)
 from ddd_py.app_ctx.usecase.common import output_dto
 
 
@@ -10,25 +13,27 @@ class Usecase(metaclass=ABCMeta):
     @abstractmethod
     async def find(
         self,
-        fo: post_finder.FilteringOptions,
-        so: post_finder.SortingOptions,
+        fo: reaction_preset_finder.FilteringOptions,
+        so: reaction_preset_finder.SortingOptions,
         page: Page,
-    ) -> list[output_dto.Post]:
+    ) -> list[output_dto.ReactionPreset]:
         pass
 
 
 # TODO:
 class UsecaseImpl(Usecase):
-    def __init__(self, pf: post_finder.Finder, pr: post.Repository):
-        self.pf = pf
-        self.pr = pr
+    def __init__(
+        self, rf: reaction_preset.Repository, rr: reaction_preset_finder.Finder
+    ) -> None:
+        self.rf = rf
+        self.rr = rr
 
     async def find(
         self,
-        fo: post_finder.FilteringOptions,
-        so: post_finder.SortingOptions,
+        fo: reaction_preset_finder.FilteringOptions,
+        so: reaction_preset_finder.SortingOptions,
         page: Page,
-    ) -> list[output_dto.Post]:
+    ) -> list[output_dto.ReactionPreset]:
         print(f"[{__name__}] called")
         requester = ctx_requested_user_id.get()
         if requester is None:

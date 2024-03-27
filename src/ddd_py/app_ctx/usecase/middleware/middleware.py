@@ -5,7 +5,7 @@ from ddd_py.app_ctx.common.context import ctx_requested_user_id
 from .port import Port
 
 # * Middleware には、他ユースケースの前段階に組み込む可能性のある共通処理を記述する。
-# * 処理結果は、contextvars を用いてリクエストスコープ上でグローバルに共有する。
+# * 処理結果は基本的に contextvars を用いてリクエストスコープ上にグローバル共有する。
 # * 動作モード（API Server, gRPC Server, Lambda, 外部API Server など）に関わらず、
 # * あらゆる main ファイルから呼ばれる想定。
 

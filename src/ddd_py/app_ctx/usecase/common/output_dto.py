@@ -7,26 +7,26 @@ from ddd_py.app_ctx.domain.reaction_preset import reaction_preset
 from ddd_py.app_ctx.domain.user import user
 
 
-@dataclass(frozen=True)
+@dataclass
 class Post:
     id: post.Id
 
 
-@dataclass(frozen=True)
+@dataclass
 class PostGenerateRequest:
     id: post_generate_request.Id
 
 
-@dataclass(frozen=True)
+@dataclass
 class Reaction:
     id: reaction.Id
 
 
-@dataclass(frozen=True)
+@dataclass
 class ReactionPreset:
     id: reaction_preset.Id
 
 
-@dataclass(frozen=True)
+@dataclass
 class User:
     id: user.Id

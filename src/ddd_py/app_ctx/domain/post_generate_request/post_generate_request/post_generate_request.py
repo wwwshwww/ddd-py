@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from enum import Enum
 
 from ddd_py.app_ctx.domain.post import post
 from ddd_py.app_ctx.domain.user import user
@@ -11,6 +11,11 @@ from .keyword import Keyword
 KEYWORDS_NUM_MIN, KEYWORDS_NUM_MAX = 1, 3
 
 
+class GenerationStatus(Enum):
+    UNCOMPLETED = 1
+    COMPLETED = 2
+
+
 class PostGenerateRequest:
     def __init__(
         self,
@@ -18,7 +23,7 @@ class PostGenerateRequest:
         user_id: user.Id,
         keywords: list[Keyword],
         requested_at: datetime,
-        generated_post_id: Optional[post.Id],
+        generated_post_id: post.Id | None,
     ) -> None:
         if (len(keywords) < KEYWORDS_NUM_MIN) or (len(keywords) > KEYWORDS_NUM_MAX):
             raise DomainError(
@@ -48,11 +53,15 @@ class PostGenerateRequest:
         return self._requested_at
 
     @property
-    def generated_post_id(self) -> Optional[post.Id]:
+    def generated_post_id(self) -> post.Id | None:
         return self._generated_post_id
 
-    def is_generated(self) -> bool:
-        return self._generated_post_id is not None
+    @property
+    def generation_status(self) -> GenerationStatus:
+        if self._generated_post_id is None:
+            return GenerationStatus.UNCOMPLETED
+        else:
+            return GenerationStatus.COMPLETED
 
 
 def create_post_generate_request_id(

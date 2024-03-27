@@ -1,0 +1,196 @@
+type Query {
+    user(id: ID!) User
+    users(ids: [ID!]): [User!]
+    findUser(
+        filter: UserFilteringOptions,
+        sorter: [UserSortingOption!],
+        page: Page
+    ): [User!]
+
+    post(id: ID!) Post
+    posts(ids: [ID!]): [Post!]
+    findPost(
+        filter: PostFilteringOptions,
+        sorter: [PostSortingOption!],
+        page: Page
+    ): [Post!]
+
+    postGenerateRequest(id: ID!) PostGenerateRequest
+    postGenerateRequests(ids: [ID!]): [PostGenerateRequest!]
+    findPostGenerateRequest(
+        filter: PostGenerateRequestFilteringOptions,
+        sorter: [PostGenerateRequestSortingOption!],
+        page: Page
+    ): [PostGenerateRequest!]
+
+    reaction(id: ID!) Reaction
+    reactions(ids: [ID!]): [Reaction!]
+    findReaction(
+        filter: ReactionFilteringOptions,
+        sorter: [ReactionSortingOption!],
+        page: Page
+    ): [Reaction!]
+
+    reactionPreset(id: ID!) ReactionPreset
+    reactionPresets(ids: [ID!]): [ReactionPreset!]
+    findReactionPreset(
+        filter: ReactionPresetFilteringOptions,
+        sorter: [ReactionPresetSortingOption!],
+        page: Page
+    ): [ReactionPreset!]
+}
+
+type User {
+    id: ID!
+    name: String!
+
+    posts(
+        filter: UserFilteringOptions,
+        sorter: [UserSortingOption!]
+    ): [Post!]
+    postGenerateRequests(
+        filter: PostGenerateRequestFilteringOptions,
+        sorter: [PostGenerateRequestSortingOption!],
+    ): [PostGenerateRequest!]
+    reactions(
+        filter: ReactionFilteringOptions,
+        sorter: [ReactionSortingOption!],
+    ): [Reaction!]
+    reactionPreset(
+        filter: ReactionPresetFilteringOptions,
+        sorter: [ReactionPresetSortingOption!],
+    ): [ReactionPreset!]
+}
+
+type Post {
+    id: ID!
+    content: String!
+    creator: User!
+    postGenerateRequest: PostGenerateRequest!
+}
+
+type PostGenerateRequest {
+    id: ID!
+    creator: User!
+    keywords: [String!]!
+    generationStatus: PostGenerateRequestGenerationStatus
+    requestedAt: String!
+    generatedPost: Post
+}
+
+enum PostGenerateRequestGenerationStatus {
+    UNCOMPLETED
+    COMPLETED
+}
+
+type Reaction {
+    id: ID!
+    reactionPreset: ReactionPreset!
+    targetPost: Post!
+    reactor: User!
+    reactedAt: String!
+    isApproved: Boolean!
+}
+
+type ReactionPreset {
+    id: ID!
+    content: String!
+    createdAt: String!
+    creator: User!
+    associatedReactions(
+        filter: ReactionFilteringOptions,
+        sorter: [ReactionSortingOption!]
+    )
+}
+
+input UserFilteringOptions {
+    nameExact: String
+    nameFront: String
+    namePartial: String
+    nameBack: String
+}
+
+input PostFilteringOptions {
+    creators: [ID!]
+    reactionNumMore: Int
+    reactionNumLess: Int
+}
+
+input PostGenerateRequestFilteringOptions {
+    creators: [ID!]
+    excludeStatuses: [PostGenerateRequestGenerationStatus!]
+}
+
+input ReactionFilteringOptions {
+    reactors: [ID!]
+    excludeApproved: Boolean
+}
+
+input ReactionPresetFilteringOptions {
+    creators: [ID!]
+}
+
+interface UserSortingOption {
+    asc: Boolean!
+}
+input UserSortingOptionName implements UserSortingOption {
+    asc: Boolean!
+}
+input UserSortingOptionGetReactionNum implements UserSortingOption {
+    asc: Boolean!
+}
+input UserSortingOptionGiveReactionNum implements UserSortingOption {
+    asc: Boolean!
+}
+
+interface PostSortingOption {
+    asc: Boolean!
+}
+input PostSortingOptionId implements PostSortingOption {
+    asc: Boolean!
+}
+input PostSortingOptionReactionNum implements PostSortingOption {
+    asc: Boolean!
+}
+input PostSortingOptionCreatorId implements PostSortingOption {
+    asc: Boolean!
+}
+input PostSortingOptionCreatedAt implements PostSortingOption {
+    asc: Boolean!
+}
+
+interface PostGenerateRequestSortingOption {
+    asc: Boolean!
+}
+input PostGenerateRequestSortingOptionId implements PostGenerateRequestSortingOption {
+    asc: Boolean!
+}
+
+interface ReactionSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionId implements ReactionSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionReactionPresetId implements ReactionSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionReactedAt implements ReactionSortingOption {
+    asc: Boolean!
+}
+
+interface ReactionPresetSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionId implements ReactionPresetSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionContent implements ReactionPresetSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionCreatedAt implements ReactionPresetSortingOption {
+    asc: Boolean!
+}
+input ReactionSortingOptionReactedCount implements ReactionPresetSortingOption {
+    asc: Boolean!
+}

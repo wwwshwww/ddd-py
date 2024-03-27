@@ -7,20 +7,20 @@ adapter/outbound/ の GraphQL は、クライアントの指定したクエリ�
 ```graphql
 type Query {
     user(id: ID!): User
-    users(ids: [ID!]): [User]
+    users(ids: [ID!]): [User!]
     post(id: ID!): Post
-    posts(ids: [ID!]): [Post]
+    posts(ids: [ID!]): [Post!]
     findPosts(
         filter: PostFilteringOptions, 
-        sorter: [PostSortingOption], 
+        sorter: [PostSortingOption!], 
         page: Page
-    ): [Post]
+    ): [Post!]
 }
 
 type User {
     id: ID!
     name: String
-    posts(filter: PostFilteringOptions): [Post]
+    posts(filter: PostFilteringOptions): [Post!]
 }
 
 type Post {

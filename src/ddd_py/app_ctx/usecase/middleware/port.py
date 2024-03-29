@@ -1,9 +1,9 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 from ddd_py.app_ctx.domain.user import user
 
 
-class Port(metaclass=ABCMeta):
+class Port(ABC):
     @abstractmethod
     def verify_session_and_get_user_id(
         self,

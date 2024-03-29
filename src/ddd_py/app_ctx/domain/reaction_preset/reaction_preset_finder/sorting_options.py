@@ -1,9 +1,9 @@
-import abc
+from abc import ABC
 from dataclasses import dataclass
 
 
 @dataclass
-class SortingType(metaclass=abc.ABCMeta):
+class SortingType(ABC):
     asc: bool
 
 

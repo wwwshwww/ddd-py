@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from datetime import datetime
 
 from ddd_py.auth_ctx.domain.user_session import user_session
@@ -12,7 +12,7 @@ from ddd_py.auth_ctx.usecase.verify_user_session.error import (
 from .dto import Input, Output
 
 
-class Usecase(metaclass=ABCMeta):
+class Usecase(ABC):
     @abstractmethod
     async def verify(self, target: Input) -> Output:
         pass

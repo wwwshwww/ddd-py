@@ -1,5 +1,6 @@
 import sys
 import uuid
+from datetime import datetime
 
 import ulid
 
@@ -12,6 +13,7 @@ print(
         post.Id(ulid.new().uuid),
         user.Id(uuid.uuid4()),
         post.Content("just make sure to run away."),
+        datetime.now(),
     )
 )
 

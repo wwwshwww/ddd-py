@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from datetime import datetime
 
 from ddd_py.auth_ctx.domain.auth_session import auth_session, auth_session_finder
@@ -10,7 +10,7 @@ from .error import DomainError, PortError, RepositoryError, UnauthorizedError
 from .port import Port
 
 
-class Usecase(metaclass=ABCMeta):
+class Usecase(ABC):
     @abstractmethod
     async def start(self, si: StartInput) -> StartOutput:
         pass
@@ -45,11 +45,11 @@ class UsecaseImpl(Usecase):
                 auth_session.ClientState(si.client_state),
                 datetime.now(),
             )
-            self.auth_session_repository.save(aus)
+            await self.auth_session_repository.save(aus)
 
         except auth_session.DomainError as e:
             raise DomainError() from e
-        except auth_session.RepositoryError as e:
+        except auth_session.RepositorySaveError as e:
             raise RepositoryError() from e
 
         return StartOutput(aus.id)
@@ -58,23 +58,23 @@ class UsecaseImpl(Usecase):
         try:
             now = datetime.now()
 
-            aus_ids = self.auth_session_finder.find(
+            aus_ids = await self.auth_session_finder.find(
                 auth_session_finder.FilteringOptions(id_in=[li.auth_session_id])
             )
             if len(aus_ids) == 0:
                 raise UnauthorizedError("auth session is invalid")
 
-            aus = self.auth_session_repository.get(aus_ids[0])
+            aus = await self.auth_session_repository.get(aus_ids[0])
             if aus.is_expired(now):
-                self.auth_session_repository.delete(aus)
+                await self.auth_session_repository.delete(aus.id)
                 raise UnauthorizedError("auth session is expired")
 
             idp_resp = self.usecase_port.code2token(li.code)
 
-            self.auth_session_repository.delete(aus)
+            await self.auth_session_repository.delete(aus.id)
 
             # TODO: verify id token
-            found_user_ids = self.user_finder.find(
+            found_user_ids = await self.user_finder.find(
                 user_finder.FilteringOptions(
                     provider_subject_google=idp_resp.sub,
                 )
@@ -95,7 +95,11 @@ class UsecaseImpl(Usecase):
 
         except auth_session.DomainError as e:
             raise DomainError() from e
-        except auth_session.RepositoryError as e:
+        except auth_session.RepositoryGetError as e:
+            raise RepositoryError() from e
+        except auth_session.RepositoryDeleteError as e:
+            raise RepositoryError() from e
+        except auth_session.RepositorySaveError as e:
             raise RepositoryError() from e
         except PortError as e:
             raise e

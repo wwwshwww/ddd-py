@@ -1,18 +1,18 @@
-import abc
+from abc import ABC, abstractmethod
 
 from .id import Id
 from .reaction import Reaction
 
 
-class Repository(metaclass=abc.ABCMeta):
-    @abc.abstractmethod
+class Repository(ABC):
+    @abstractmethod
     def bulk_get(self, ids: list[Id]) -> dict[Id, Reaction]:
         raise NotImplementedError()
 
-    @abc.abstractmethod
+    @abstractmethod
     def bulk_save(self, values: list[Reaction]) -> None:
         raise NotImplementedError()
 
-    @abc.abstractmethod
+    @abstractmethod
     def bulk_delete(self, ids: list[Id]) -> None:
         raise NotImplementedError()

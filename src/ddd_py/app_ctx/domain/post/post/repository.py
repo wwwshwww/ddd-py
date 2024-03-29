@@ -1,18 +1,18 @@
-import abc
+from abc import ABC, abstractmethod
 
 from .id import Id
 from .post import Post
 
 
-class Repository(metaclass=abc.ABCMeta):
-    @abc.abstractmethod
+class Repository(ABC):
+    @abstractmethod
     async def bulk_get(self, ids: list[Id]) -> dict[Id, Post]:
         raise NotImplementedError()
 
-    @abc.abstractmethod
+    @abstractmethod
     async def bulk_save(self, values: list[Post]) -> None:
         raise NotImplementedError()
 
-    @abc.abstractmethod
+    @abstractmethod
     async def bulk_delete(self, ids: list[Id]) -> None:
         raise NotImplementedError()

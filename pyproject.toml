@@ -48,4 +48,3 @@ known-first-party = ["ddd_py"]
 check_untyped_defs = true
 ignore_missing_imports = true
 no_implicit_optional = true
-# strict = true

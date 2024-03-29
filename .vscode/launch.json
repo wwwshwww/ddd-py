@@ -44,6 +44,17 @@
                 "--reload"
             ],
             "jinja": true
+        },
+        {
+            "name": "graphql_signature",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "_tameshi.ariadne.signature:app",
+                "--reload"
+            ],
+            "jinja": true
         }
     ]
 }

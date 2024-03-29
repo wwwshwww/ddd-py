@@ -8,25 +8,27 @@ from ddd_py.app_ctx.domain.user import user
 
 
 @dataclass
-class Post:
+class PostDTO:
     id: post.Id
+    content: str
+    user_id: user.Id
 
 
 @dataclass
-class PostGenerateRequest:
+class PostGenerateRequestDTO:
     id: post_generate_request.Id
 
 
 @dataclass
-class Reaction:
+class ReactionDTO:
     id: reaction.Id
 
 
 @dataclass
-class ReactionPreset:
+class ReactionPresetDTO:
     id: reaction_preset.Id
 
 
 @dataclass
-class User:
+class UserDTO:
     id: user.Id

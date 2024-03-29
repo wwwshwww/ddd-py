@@ -73,12 +73,12 @@ type PostGenerateRequest {
     id: ID!
     creator: User!
     keywords: [String!]!
-    generationStatus: PostGenerateRequestGenerationStatus
+    generationStatus: PostGenerateRequestGenStatus
     requestedAt: String!
     generatedPost: Post
 }
 
-enum PostGenerateRequestGenerationStatus {
+enum PostGenerateRequestGenStatus {
     UNCOMPLETED
     COMPLETED
 }
@@ -103,6 +103,11 @@ type ReactionPreset {
     )
 }
 
+input Page {
+    offset: Int!
+    limit: Int
+}
+
 input UserFilteringOptions {
     nameExact: String
     nameFront: String
@@ -111,86 +116,76 @@ input UserFilteringOptions {
 }
 
 input PostFilteringOptions {
-    creators: [ID!]
+    creatorIds: [ID!]
     reactionNumMore: Int
     reactionNumLess: Int
 }
 
 input PostGenerateRequestFilteringOptions {
-    creators: [ID!]
+    creatorIds: [ID!]
     excludeStatuses: [PostGenerateRequestGenerationStatus!]
 }
 
 input ReactionFilteringOptions {
-    reactors: [ID!]
+    reactorIds: [ID!]
     excludeApproved: Boolean
 }
 
 input ReactionPresetFilteringOptions {
-    creators: [ID!]
+    creatorIds: [ID!]
 }
 
-interface UserSortingOption {
-    asc: Boolean!
+enum UserSortingType {
+    NAME
+    GET_REACTION_NUM
+    GIVE_REACTION_NUM
 }
-input UserSortingOptionName implements UserSortingOption {
-    asc: Boolean!
-}
-input UserSortingOptionGetReactionNum implements UserSortingOption {
-    asc: Boolean!
-}
-input UserSortingOptionGiveReactionNum implements UserSortingOption {
+
+input UserSortingOption {
+    type: UserSortingType!
     asc: Boolean!
 }
 
-interface PostSortingOption {
-    asc: Boolean!
+enum PostSortingType {
+    ID
+    REACTION_NUM
+    CREATOR_ID
+    CREATED_AT
 }
-input PostSortingOptionId implements PostSortingOption {
-    asc: Boolean!
-}
-input PostSortingOptionReactionNum implements PostSortingOption {
-    asc: Boolean!
-}
-input PostSortingOptionCreatorId implements PostSortingOption {
-    asc: Boolean!
-}
-input PostSortingOptionCreatedAt implements PostSortingOption {
+
+input PostSortingOption {
+    type: PostSortingType!
     asc: Boolean!
 }
 
-interface PostGenerateRequestSortingOption {
+enum PostGenerateRequestSortingType {
+    ID
+}
+
+input PostGenerateRequestSortingOption {
+    type: PostGenerateRequestSortingType!
     asc: Boolean!
 }
-input PostGenerateRequestSortingOptionId implements PostGenerateRequestSortingOption {
-    asc: Boolean!
+
+enum ReactionSortingType {
+    ID
+    REACTION_PRESET_ID
+    REACTED_AT
 }
 
 interface ReactionSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionId implements ReactionSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionReactionPresetId implements ReactionSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionReactedAt implements ReactionSortingOption {
+    type: ReactionSortingType!
     asc: Boolean!
 }
 
+enum ReactionPresetSortingType {
+    ID
+    CONTENT
+    CREATED_AT
+    REACTED_COUNT
+}
+
 interface ReactionPresetSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionId implements ReactionPresetSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionContent implements ReactionPresetSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionCreatedAt implements ReactionPresetSortingOption {
-    asc: Boolean!
-}
-input ReactionSortingOptionReactedCount implements ReactionPresetSortingOption {
+    type: ReactionPresetSortingType!
     asc: Boolean!
 }

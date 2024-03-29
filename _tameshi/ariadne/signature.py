@@ -132,10 +132,6 @@ schema = make_executable_schema(
 )
 
 
-def a(sd: tuple[int, ...]):
-    print(sd)
-
-
 @dataclass
 class Dependencies:
     dep1: str

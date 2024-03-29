@@ -1,43 +1,43 @@
 type Query {
-    user(id: ID!) User
-    users(ids: [ID!]): [User!]
+    user(id: ID!): User
+    users(ids: [ID!]!): [User]!
     findUser(
         filter: UserFilteringOptions,
         sorter: [UserSortingOption!],
         page: Page
-    ): [User!]
+    ): [User!]!
 
-    post(id: ID!) Post
-    posts(ids: [ID!]): [Post!]
+    post(id: ID!): Post
+    posts(ids: [ID!]): [Post]!
     findPost(
         filter: PostFilteringOptions,
         sorter: [PostSortingOption!],
         page: Page
-    ): [Post!]
+    ): [Post!]!
 
-    postGenerateRequest(id: ID!) PostGenerateRequest
-    postGenerateRequests(ids: [ID!]): [PostGenerateRequest!]
+    postGenerateRequest(id: ID!): PostGenerateRequest
+    postGenerateRequests(ids: [ID!]): [PostGenerateRequest]!
     findPostGenerateRequest(
         filter: PostGenerateRequestFilteringOptions,
         sorter: [PostGenerateRequestSortingOption!],
         page: Page
-    ): [PostGenerateRequest!]
+    ): [PostGenerateRequest!]!
 
-    reaction(id: ID!) Reaction
-    reactions(ids: [ID!]): [Reaction!]
+    reaction(id: ID!): Reaction
+    reactions(ids: [ID!]): [Reaction]!
     findReaction(
         filter: ReactionFilteringOptions,
         sorter: [ReactionSortingOption!],
         page: Page
-    ): [Reaction!]
+    ): [Reaction!]!
 
-    reactionPreset(id: ID!) ReactionPreset
-    reactionPresets(ids: [ID!]): [ReactionPreset!]
+    reactionPreset(id: ID!): ReactionPreset
+    reactionPresets(ids: [ID!]): [ReactionPreset]!
     findReactionPreset(
         filter: ReactionPresetFilteringOptions,
         sorter: [ReactionPresetSortingOption!],
         page: Page
-    ): [ReactionPreset!]
+    ): [ReactionPreset!]!
 }
 
 type User {
@@ -45,21 +45,21 @@ type User {
     name: String!
 
     posts(
-        filter: UserFilteringOptions,
-        sorter: [UserSortingOption!]
-    ): [Post!]
+        filter: PostFilteringOptions,
+        sorter: [PostSortingOption!]
+    ): [Post!]!
     postGenerateRequests(
         filter: PostGenerateRequestFilteringOptions,
         sorter: [PostGenerateRequestSortingOption!],
-    ): [PostGenerateRequest!]
+    ): [PostGenerateRequest!]!
     reactions(
         filter: ReactionFilteringOptions,
         sorter: [ReactionSortingOption!],
-    ): [Reaction!]
+    ): [Reaction!]!
     reactionPreset(
         filter: ReactionPresetFilteringOptions,
         sorter: [ReactionPresetSortingOption!],
-    ): [ReactionPreset!]
+    ): [ReactionPreset!]!
 }
 
 type Post {
@@ -73,7 +73,7 @@ type PostGenerateRequest {
     id: ID!
     creator: User!
     keywords: [String!]!
-    generationStatus: PostGenerateRequestGenStatus
+    generationStatus: PostGenerateRequestGenStatus!
     requestedAt: String!
     generatedPost: Post
 }
@@ -100,7 +100,7 @@ type ReactionPreset {
     associatedReactions(
         filter: ReactionFilteringOptions,
         sorter: [ReactionSortingOption!]
-    )
+    ): [Reaction!]!
 }
 
 input Page {
@@ -123,7 +123,7 @@ input PostFilteringOptions {
 
 input PostGenerateRequestFilteringOptions {
     creatorIds: [ID!]
-    excludeStatuses: [PostGenerateRequestGenerationStatus!]
+    excludeStatuses: [PostGenerateRequestGenStatus!]
 }
 
 input ReactionFilteringOptions {
@@ -173,7 +173,7 @@ enum ReactionSortingType {
     REACTED_AT
 }
 
-interface ReactionSortingOption {
+input ReactionSortingOption {
     type: ReactionSortingType!
     asc: Boolean!
 }
@@ -185,7 +185,7 @@ enum ReactionPresetSortingType {
     REACTED_COUNT
 }
 
-interface ReactionPresetSortingOption {
+input ReactionPresetSortingOption {
     type: ReactionPresetSortingType!
     asc: Boolean!
 }

@@ -1,9 +1,7 @@
 import enum
 from dataclasses import dataclass
 
-from ariadne import EnumType, InputType, ObjectType, QueryType
-
-query = QueryType()
+from ariadne import EnumType, InputType, ObjectType
 
 
 @dataclass

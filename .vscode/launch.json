@@ -13,7 +13,7 @@
             "justMyCode": false,
         },
         {
-            "name": "_:db_api",
+            "name": "_: db_api",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -24,7 +24,7 @@
             "jinja": true
         },
         {
-            "name": "_:adapter_ex",
+            "name": "_: adapter_ex",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -35,7 +35,7 @@
             "jinja": true
         },
         {
-            "name": "_:graphql_with_db",
+            "name": "_: graphql_with_db",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -46,7 +46,7 @@
             "jinja": true
         },
         {
-            "name": "_:graphql_signature",
+            "name": "_: graphql_signature",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -57,12 +57,12 @@
             "jinja": true
         },
         {
-            "name": "appctx:GraphQL",
+            "name": "appctx: GraphQL",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "ddd_py.app_ctx.adapter.inbound.graphql.ttt:app",
+                "ddd_py.app_ctx.adapter.inbound.graphql.server:app",
                 "--reload"
             ],
             "jinja": true

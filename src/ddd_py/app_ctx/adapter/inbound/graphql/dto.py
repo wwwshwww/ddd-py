@@ -1,8 +1,6 @@
 import enum
 from dataclasses import dataclass
 
-from ariadne import EnumType, InputType, ObjectType
-
 
 @dataclass
 class User:
@@ -10,17 +8,11 @@ class User:
     name: str
 
 
-user = ObjectType("User")
-
-
 @dataclass
 class Post:
     id: str
     content: str
     creator_id: str
-
-
-post = ObjectType("Post")
 
 
 @dataclass
@@ -33,17 +25,9 @@ class PostGenerateRequest:
     generated_post_id: str | None
 
 
-post_generate_request = ObjectType("PostGenerateRequest")
-
-
 class PostGenerateRequestGenStatus(enum.Enum):
     UNCOMPLETED = 1
     COMPLETED = 2
-
-
-post_generate_request_gen_status = EnumType(
-    "PostGenerateRequestGenStatus", PostGenerateRequestGenStatus
-)
 
 
 @dataclass
@@ -56,9 +40,6 @@ class Reaction:
     is_approved: bool
 
 
-reaction = ObjectType("Reaction")
-
-
 @dataclass
 class ReactionPreset:
     id: str
@@ -67,16 +48,10 @@ class ReactionPreset:
     creator_id: str
 
 
-reaction_preset = ObjectType("ReactionPreset")
-
-
 @dataclass
 class Page:
     offset: int
     limit: int | None
-
-
-page = InputType("Page", lambda x: Page(**x))
 
 
 @dataclass
@@ -87,27 +62,16 @@ class UserFilteringOptions:
     name_back: str | None
 
 
-user_filtering_options = InputType(
-    "UserFilteringOptions", lambda x: UserFilteringOptions(**x)
-)
-
-
 class UserSortingType(enum.Enum):
     NAME = 1
     GET_REACTION_NUM = 2
     GIVE_REACTION_NUM = 3
 
 
-user_sorting_type = EnumType("UserSortingType", UserSortingType)
-
-
 @dataclass
 class UserSortingOption:
     type: UserSortingType
     asc: bool
-
-
-user_sorting_option = InputType("UserSortingOption", lambda x: UserSortingOption(**x))
 
 
 @dataclass
@@ -117,11 +81,6 @@ class PostFilteringOptions:
     reaction_num_less: int | None
 
 
-post_filtering_options = InputType(
-    "PostFilteringOptions", lambda x: PostFilteringOptions(**x)
-)
-
-
 class PostSortingType(enum.Enum):
     ID = 1
     REACTION_NUM = 2
@@ -129,13 +88,7 @@ class PostSortingType(enum.Enum):
     CREATED_AT = 4
 
 
-post_sorting_type = EnumType("PostSortingType", PostSortingType)
-
-
 @dataclass
 class PostSortingOption:
     type: PostSortingType
     asc: bool
-
-
-post_sorting_option = InputType("PostSortingOption", lambda x: PostSortingOption(**x))

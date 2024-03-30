@@ -2,40 +2,40 @@ type Query {
     user(id: ID!): User
     users(ids: [ID!]!): [User]!
     findUser(
-        filter: UserFilteringOptions,
-        sorter: [UserSortingOption!],
+        fo: UserFilteringOptions,
+        so: [UserSortingOption!],
         page: Page
     ): [User!]!
 
     post(id: ID!): Post
     posts(ids: [ID!]): [Post]!
     findPost(
-        filter: PostFilteringOptions,
-        sorter: [PostSortingOption!],
+        fo: PostFilteringOptions,
+        so: [PostSortingOption!],
         page: Page
     ): [Post!]!
 
     postGenerateRequest(id: ID!): PostGenerateRequest
     postGenerateRequests(ids: [ID!]): [PostGenerateRequest]!
     findPostGenerateRequest(
-        filter: PostGenerateRequestFilteringOptions,
-        sorter: [PostGenerateRequestSortingOption!],
+        fo: PostGenerateRequestFilteringOptions,
+        so: [PostGenerateRequestSortingOption!],
         page: Page
     ): [PostGenerateRequest!]!
 
     reaction(id: ID!): Reaction
     reactions(ids: [ID!]): [Reaction]!
     findReaction(
-        filter: ReactionFilteringOptions,
-        sorter: [ReactionSortingOption!],
+        fo: ReactionFilteringOptions,
+        so: [ReactionSortingOption!],
         page: Page
     ): [Reaction!]!
 
     reactionPreset(id: ID!): ReactionPreset
     reactionPresets(ids: [ID!]): [ReactionPreset]!
     findReactionPreset(
-        filter: ReactionPresetFilteringOptions,
-        sorter: [ReactionPresetSortingOption!],
+        fo: ReactionPresetFilteringOptions,
+        so: [ReactionPresetSortingOption!],
         page: Page
     ): [ReactionPreset!]!
 }
@@ -45,20 +45,20 @@ type User {
     name: String!
 
     posts(
-        filter: PostFilteringOptions,
-        sorter: [PostSortingOption!]
+        fo: PostFilteringOptions,
+        so: [PostSortingOption!]
     ): [Post!]!
     postGenerateRequests(
-        filter: PostGenerateRequestFilteringOptions,
-        sorter: [PostGenerateRequestSortingOption!],
+        fo: PostGenerateRequestFilteringOptions,
+        so: [PostGenerateRequestSortingOption!],
     ): [PostGenerateRequest!]!
     reactions(
-        filter: ReactionFilteringOptions,
-        sorter: [ReactionSortingOption!],
+        fo: ReactionFilteringOptions,
+        so: [ReactionSortingOption!],
     ): [Reaction!]!
     reactionPreset(
-        filter: ReactionPresetFilteringOptions,
-        sorter: [ReactionPresetSortingOption!],
+        fo: ReactionPresetFilteringOptions,
+        so: [ReactionPresetSortingOption!],
     ): [ReactionPreset!]!
 }
 
@@ -98,8 +98,8 @@ type ReactionPreset {
     createdAt: String!
     creator: User!
     associatedReactions(
-        filter: ReactionFilteringOptions,
-        sorter: [ReactionSortingOption!]
+        fo: ReactionFilteringOptions,
+        so: [ReactionSortingOption!]
     ): [Reaction!]!
 }
 

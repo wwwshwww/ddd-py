@@ -1,15 +1,16 @@
 import uuid
 from dataclasses import dataclass
 
-from ddd_py.app_ctx.adapter.inbound.graphql.models import (
+from ddd_py.app_ctx.common.dependencies import Dependencies
+from ddd_py.app_ctx.domain.post import post_finder
+from ddd_py.app_ctx.domain.user import user
+
+from .dto import (
     Post,
     PostFilteringOptions,
     PostSortingOption,
     PostSortingType,
 )
-from ddd_py.app_ctx.common.dependencies import Dependencies
-from ddd_py.app_ctx.domain.post import post_finder
-from ddd_py.app_ctx.domain.user import user
 
 
 @dataclass(frozen=True)

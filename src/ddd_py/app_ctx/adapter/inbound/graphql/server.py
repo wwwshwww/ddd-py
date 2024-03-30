@@ -1,5 +1,6 @@
 import os
-from typing import Annotated, Generator
+import uuid
+from typing import Generator
 
 from aiodataloader import DataLoader
 from ariadne import (
@@ -11,6 +12,16 @@ from fastapi import Depends, FastAPI
 from starlette.requests import Request
 
 from ddd_py.app_ctx.common.dependencies import Dependencies
+from ddd_py.app_ctx.common.types import Page
+from ddd_py.app_ctx.domain.post import post as post_domain
+from ddd_py.app_ctx.domain.post.post_finder.filtering_options import (
+    FilteringOptions,  # TODO: optiont.py に両方とも置いて良い気がした
+)
+from ddd_py.app_ctx.domain.post.post_finder.sorting_options import SortingOptions
+from ddd_py.app_ctx.usecase import (
+    find_post,
+)
+from ddd_py.app_ctx.usecase.common.output_dto import PostDTO
 
 from .dataloader import Loader
 from .general import Context
@@ -24,6 +35,7 @@ if schema_path:
 
 
 def get_context_value(request: Request) -> Context:
+    print(request.scope["dependencies"])
     loader = Loader(request.scope["dependencies"])
 
     return Context(
@@ -47,6 +59,37 @@ def prepare_dependencies() -> Generator[Dependencies, None, None]:
     raise NotImplementedError("need to inject dependency")
 
 
+def mock_dependencies() -> Generator[Dependencies, None, None]:
+    class MockUsecase1(find_post.Usecase):
+        async def find(
+            self,
+            fo: FilteringOptions | None = None,
+            so: SortingOptions | None = None,
+            page: Page | None = None,
+        ) -> list[PostDTO]:
+            print(fo, so, page)
+            if fo is None:
+                return []
+            elif (fo is not None) and (fo.user_id_in is None):
+                return []
+            else:
+                return [
+                    PostDTO(post_domain.Id(uuid.uuid4()), "ぬ", ui)
+                    for ui in fo.user_id_in
+                ]
+
+    try:
+        yield Dependencies(
+            usecase_find_post=MockUsecase1(),
+            usecase_find_post_generate_request=None,
+            usecase_find_reaction=None,
+            usecase_find_reaction_preset=None,
+            usecase_find_user=None,
+        )
+    finally:
+        print("done")
+
+
 app = FastAPI()
 
 
@@ -58,7 +101,11 @@ async def handle_graphql_explorer(request: Request):
 @app.post("/graphql")
 async def handle_graphql_query(
     request: Request,
-    dependencies=Annotated[Dependencies, Depends(prepare_dependencies)],
+    dependencies=Depends(prepare_dependencies),
 ):
+    print(type(dependencies))
     request.scope["dependencies"] = dependencies
     return await graphql_app.handle_request(request)
+
+
+app.dependency_overrides[prepare_dependencies] = mock_dependencies

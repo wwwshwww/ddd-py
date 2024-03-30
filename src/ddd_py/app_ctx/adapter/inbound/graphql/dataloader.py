@@ -40,6 +40,7 @@ class Loader:
         self,
         keys: list[tuple[str, PostFindOptionSet]],
     ) -> list[list[Post]]:
+        print(keys)
         key_group = {key[1] for key in keys}
         result_map: dict[PostFindOptionSet, list[Post]] = {}
         for g in key_group:
@@ -47,14 +48,13 @@ class Loader:
                 user.Id(uuid.UUID(key[0])) for key in keys if key[1] == g
             ]
 
-            fo: post_finder.FilteringOptions | None = None
+            fo: post_finder.FilteringOptions = post_finder.FilteringOptions(
+                user_id_in=user_ids,
+            )
             so: post_finder.SortingOptions | None = None
             if g.fo is not None:
-                fo = post_finder.FilteringOptions(
-                    user_id_in=user_ids,
-                    reaction_num_less=g.fo.reaction_num_less,
-                    reaction_num_more=g.fo.reaction_num_more,
-                )
+                fo.reaction_num_less = g.fo.reaction_num_less
+                fo.reaction_num_more = g.fo.reaction_num_more
             if g.so is not None:
                 so = post_finder.SortingOptions(
                     [marshal_post_sorting_option(d) for d in g.so]

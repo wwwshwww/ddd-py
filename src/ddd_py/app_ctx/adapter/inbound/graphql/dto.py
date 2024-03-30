@@ -2,20 +2,20 @@ import enum
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class User:
     id: str
     name: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class Post:
     id: str
     content: str
     creator_id: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class PostGenerateRequest:
     id: str
     creator_id: str
@@ -30,7 +30,7 @@ class PostGenerateRequestGenStatus(enum.Enum):
     COMPLETED = 2
 
 
-@dataclass
+@dataclass(frozen=True)
 class Reaction:
     id: str
     reaction_preset_id: str
@@ -40,7 +40,7 @@ class Reaction:
     is_approved: bool
 
 
-@dataclass
+@dataclass(frozen=True)
 class ReactionPreset:
     id: str
     content: str
@@ -48,13 +48,13 @@ class ReactionPreset:
     creator_id: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class Page:
     offset: int
     limit: int | None
 
 
-@dataclass
+@dataclass(frozen=True)
 class UserFilteringOptions:
     name_exact: str | None
     name_front: str | None
@@ -68,13 +68,13 @@ class UserSortingType(enum.Enum):
     GIVE_REACTION_NUM = 3
 
 
-@dataclass
+@dataclass(frozen=True)
 class UserSortingOption:
     type: UserSortingType
     asc: bool
 
 
-@dataclass
+@dataclass(frozen=True)
 class PostFilteringOptions:
     creator_ids: list[str] | None
     reaction_num_more: int | None
@@ -88,7 +88,7 @@ class PostSortingType(enum.Enum):
     CREATED_AT = 4
 
 
-@dataclass
+@dataclass(frozen=True)
 class PostSortingOption:
     type: PostSortingType
     asc: bool

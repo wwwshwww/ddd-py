@@ -4,6 +4,7 @@ from ariadne import EnumType, InputType, ObjectType, QueryType
 
 from graphql import GraphQLResolveInfo
 
+from .dataloader import PostFindOptionSet
 from .dto import (
     Page,
     Post,
@@ -48,7 +49,10 @@ async def resolve_users(
 ) -> list[User]:
     ctx: Context = info.context
     print(ids)
-    return [User("u1", "Sam"), User("u2", "Bob")]
+    return [
+        User("3097799b-02f7-4c8b-b698-c84de9a5e212", "Sam"),
+        User("a0fbcc65-ec9f-4dfc-bafc-ea12aa7f5f58", "Bob"),
+    ]
 
 
 @user.field("posts")
@@ -61,13 +65,13 @@ async def resolve_posts(
     ctx: Context = info.context
     print(ctx)
     print(fo, so)
-    # res = await ctx.loader_posts_by_user.load(
-    #     (
-    #         obj.id,
-    #         PostFindOptionSet(fo, tuple(s for s in so) if so is not None else None),
-    #     )
-    # )
-    # print(res)
-    # return res
+    res = await ctx.loader_posts_by_user.load(
+        (
+            obj.id,
+            PostFindOptionSet(fo, tuple(s for s in so) if so is not None else None),
+        )
+    )
+    print(res)
+    return res
 
-    return [Post(f"p_{obj.id}", f"post by {obj.name}", obj.id)]
+    # return [Post(f"p_{obj.id}", f"post by {obj.name}", obj.id)]

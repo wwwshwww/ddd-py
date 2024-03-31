@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from .auth_session import AuthSession
 from .id import Id
 
 
-class Repository(ABC):
+class Repository(metaclass=ABCMeta):
     @abstractmethod
     async def bulk_get(self, ids: list[Id]) -> dict[Id, AuthSession]:
         raise NotImplementedError()

@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from .id import Id
 from .reaction_preset import ReactionPreset
 
 
-class Repository(ABC):
+class Repository(metaclass=ABCMeta):
     @abstractmethod
     def bulk_get(self, ids: list[Id]) -> dict[Id, ReactionPreset]:
         raise NotImplementedError()

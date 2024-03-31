@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from ddd_py.app_ctx.common.context import ctx_requested_user_id
 from ddd_py.app_ctx.common.types import Page
@@ -9,7 +9,7 @@ from ddd_py.app_ctx.domain.post_generate_request import (
 from ddd_py.app_ctx.usecase.common import output_dto
 
 
-class Usecase(ABC):
+class Usecase(metaclass=ABCMeta):
     @abstractmethod
     async def find(
         self,

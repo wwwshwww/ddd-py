@@ -15,7 +15,7 @@ from ddd_py.app_ctx.common.dependencies import Dependencies
 from ddd_py.app_ctx.common.types import Page
 from ddd_py.app_ctx.domain.post import post as post_domain
 from ddd_py.app_ctx.domain.post.post_finder.filtering_options import (
-    FilteringOptions,  # TODO: optiont.py に両方とも置いて良い気がした
+    FilteringOptions,  # TODO: option.py に両方とも置いて良い気がした
 )
 from ddd_py.app_ctx.domain.post.post_finder.sorting_options import SortingOptions
 from ddd_py.app_ctx.usecase import (

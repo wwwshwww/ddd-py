@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from ddd_py.app_ctx.domain.reaction_preset import reaction_preset
 
@@ -6,7 +6,7 @@ from .filtering_options import FilteringOptions
 from .sorting_options import SortingOptions
 
 
-class Finder(ABC):
+class Finder(metaclass=ABCMeta):
     @abstractmethod
     async def find(
         self,

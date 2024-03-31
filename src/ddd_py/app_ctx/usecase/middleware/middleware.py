@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from ddd_py.app_ctx.common.context import ctx_requested_user_id
 
@@ -10,7 +10,7 @@ from .port import Port
 # * あらゆる main ファイルから呼ばれる想定。
 
 
-class Middleware(ABC):
+class Middleware(metaclass=ABCMeta):
     @abstractmethod
     async def set_user_id_from_session(
         self,

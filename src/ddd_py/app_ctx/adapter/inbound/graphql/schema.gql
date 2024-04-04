@@ -77,7 +77,7 @@ type PostGenerateRequest {
     creator: User!
     keywords: [String!]!
     generationStatus: PostGenerateRequestGenStatus!
-    requestedAt: String!
+    requestedAt: Datetime!
     generatedPost: Post
 }
 
@@ -91,14 +91,14 @@ type Reaction {
     reactionPreset: ReactionPreset!
     targetPost: Post!
     reactor: User!
-    reactedAt: String!
+    reactedAt: Datetime!
     isApproved: Boolean!
 }
 
 type ReactionPreset {
     id: ID!
     content: String!
-    createdAt: String!
+    createdAt: Datetime!
     creator: User!
     associatedReactions(
         filteringOptions: ReactionFilteringOptions,

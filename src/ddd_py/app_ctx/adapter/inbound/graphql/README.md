@@ -5,52 +5,74 @@ adapter/outbound/ の GraphQL は、クライアントの指定したクエリ�
 リソースに対する基本的な Query のスキーマ定義方針は以下の通り。特殊なビュー取得の必要が生じた場合、都度クエリを追加する。
 
 ```graphql
+directive @oneOf on INPUT_OBJECT
+scalar Datetime
+
 type Query {
     user(id: ID!): User
-    users(ids: [ID!]): [User!]
-    post(id: ID!): Post
-    posts(ids: [ID!]): [Post!]
-    findPosts(
-        filter: PostFilteringOptions, 
-        sorter: [PostSortingOption!], 
+    users(ids: [ID!]!): [User]!
+    findUser(
+        filteringOptions: UserFilteringOptions,
+        sortingOptions: [UserSortingOption!],
         page: Page
-    ): [Post!]
+    ): [User!]!
+
+    post(id: ID!): Post
+    posts(ids: [ID!]): [Post]!
+    findPost(
+        filteringOptions: PostFilteringOptions,
+        sortingOptions: [PostSortingOption!],
+        page: Page
+    ): [Post!]!
 }
 
 type User {
     id: ID!
-    name: String
-    posts(filter: PostFilteringOptions): [Post!]
+    name: String!
+    posts(
+        filteringOptions: PostFilteringOptions,
+        sortingOptions: [PostSortingOption!],
+    ): [Post!]!
 }
 
 type Post {
     id: ID!
-    title: String
-    content: String
-    author: User
+    title: String!
+    content: String!
+    totalViewed: Integer!
+    author: User!
 }
 
 input Page {
-    offset: int!
-    limit: int!
+    offset: Int!
+    limit: Int!
+}
+
+input UserFilteringOptions {
+    namePartial: String
+    hasMinPosts: Int
 }
 
 input PostFilteringOptions {
-    keyword: String
-    startDateIncl: String
-    endDateExcl: String
+    titlePartial: String
+    contentPartial: String
+    postDateFromIncl: Datetime
+    postDateToExcl: Datetime
 }
 
-interface PostSortingOption {
-    asc: Boolean
+input UserSortingOption @oneOf {
+    nameAsc: Boolean
+    postsCountAsc: Boolean
 }
 
-input PostSortingOptionDate implements PostSortingOption {
-    asc: Boolean
+input PostSortingOption @oneOf {
+    titleAsc: Boolean
+    authorNameAsc: Boolean
+    viewCountSince: PostSortingOptionViewCountSince
 }
 
-input PostSortingOptionSpecifiedReactionCount implements PostSortingOption {
-    asc: Boolean
-    reactionType: String
+input PostSortingOptionViewCountSince {
+    asc: Boolean!
+    viewDateFromIncl: Datetime!
 }
 ```

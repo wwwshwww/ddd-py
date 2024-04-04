@@ -1,6 +1,9 @@
+from datetime import datetime
 from typing import Any
 
-from ariadne import EnumType, InputType, ObjectType, QueryType
+import dateutil
+import dateutil.parser
+from ariadne import EnumType, InputType, ObjectType, QueryType, ScalarType
 
 from graphql import GraphQLResolveInfo
 
@@ -11,13 +14,13 @@ from .dto import (
     PostFilteringOptions,
     PostGenerateRequestGenStatus,
     PostSortingOption,
-    PostSortingType,
     User,
     UserFilteringOptions,
     UserSortingOption,
-    UserSortingType,
 )
 from .general import Context
+
+datetime_scalar = ScalarType("Datetime")
 
 query = QueryType()
 user = ObjectType("User")
@@ -28,17 +31,40 @@ post_generate_request_gen_status = EnumType(
 )
 reaction = ObjectType("Reaction")
 reaction_preset = ObjectType("ReactionPreset")
+
 page = InputType("Page", lambda x: Page(**x))
+
 user_filtering_options = InputType(
     "UserFilteringOptions", lambda x: UserFilteringOptions(**x)
 )
-user_sorting_type = EnumType("UserSortingType", UserSortingType)
 user_sorting_option = InputType("UserSortingOption", lambda x: UserSortingOption(**x))
+
+
+# * 配列は unhashable な list型 で持って来てしまうため、tuple型に変換する必要がある
+# * （マッピング先の型ヒントに自動で合わせてほしい。動的型付けの限界）
+def _parse_post_filtering_options(x: dict[str, Any]) -> PostFilteringOptions:
+    if "creator_ids" in x:
+        x["creator_ids"] = tuple(x["creator_ids"])
+    return PostFilteringOptions(**x)
+
+
 post_filtering_options = InputType(
-    "PostFilteringOptions", lambda x: PostFilteringOptions(**x)
+    "PostFilteringOptions", _parse_post_filtering_options
 )
-post_sorting_type = EnumType("PostSortingType", PostSortingType)
 post_sorting_option = InputType("PostSortingOption", lambda x: PostSortingOption(**x))
+
+
+@datetime_scalar.serializer
+def serialize_datetime(value: datetime):
+    return value.isoformat()
+
+
+@datetime_scalar.value_parser
+def parse_datetime_value(value: str) -> datetime:
+    try:
+        return dateutil.parser.parse(value)
+    except Exception as e:
+        raise ValueError(f"Can not parse datetime value: {value}") from e
 
 
 @query.field("users")
@@ -59,16 +85,21 @@ async def resolve_users(
 async def resolve_posts(
     obj: User,
     info: GraphQLResolveInfo,
-    fo: PostFilteringOptions | None = None,
-    so: list[PostSortingOption] | None = None,
+    filtering_options: PostFilteringOptions | None = None,
+    sorting_options: list[PostSortingOption] | None = None,
 ) -> list[Post]:
     ctx: Context = info.context
     print(ctx)
-    print(fo, so)
+    print(filtering_options, sorting_options)
     res = await ctx.loader_posts_by_user.load(
         (
             obj.id,
-            PostFindOptionSet(fo, tuple(s for s in so) if so is not None else None),
+            PostFindOptionSet(
+                filtering_options,
+                tuple(s for s in sorting_options)
+                if sorting_options is not None
+                else None,
+            ),
         )
     )
     print(res)

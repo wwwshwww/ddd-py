@@ -1,41 +1,44 @@
+directive @oneOf on INPUT_OBJECT
+scalar Datetime
+
 type Query {
     user(id: ID!): User
     users(ids: [ID!]!): [User]!
     findUser(
-        fo: UserFilteringOptions,
-        so: [UserSortingOption!],
+        filteringOptions: UserFilteringOptions,
+        sortingOptions: [UserSortingOption!],
         page: Page
     ): [User!]!
 
     post(id: ID!): Post
     posts(ids: [ID!]): [Post]!
     findPost(
-        fo: PostFilteringOptions,
-        so: [PostSortingOption!],
+        filteringOptions: PostFilteringOptions,
+        sortingOptions: [PostSortingOption!],
         page: Page
     ): [Post!]!
 
     postGenerateRequest(id: ID!): PostGenerateRequest
     postGenerateRequests(ids: [ID!]): [PostGenerateRequest]!
     findPostGenerateRequest(
-        fo: PostGenerateRequestFilteringOptions,
-        so: [PostGenerateRequestSortingOption!],
+        filteringOptions: PostGenerateRequestFilteringOptions,
+        sortingOptions: [PostGenerateRequestSortingOption!],
         page: Page
     ): [PostGenerateRequest!]!
 
     reaction(id: ID!): Reaction
     reactions(ids: [ID!]): [Reaction]!
     findReaction(
-        fo: ReactionFilteringOptions,
-        so: [ReactionSortingOption!],
+        filteringOptions: ReactionFilteringOptions,
+        sortingOptions: [ReactionSortingOption!],
         page: Page
     ): [Reaction!]!
 
     reactionPreset(id: ID!): ReactionPreset
     reactionPresets(ids: [ID!]): [ReactionPreset]!
     findReactionPreset(
-        fo: ReactionPresetFilteringOptions,
-        so: [ReactionPresetSortingOption!],
+        filteringOptions: ReactionPresetFilteringOptions,
+        sortingOptions: [ReactionPresetSortingOption!],
         page: Page
     ): [ReactionPreset!]!
 }
@@ -45,20 +48,20 @@ type User {
     name: String!
 
     posts(
-        fo: PostFilteringOptions,
-        so: [PostSortingOption!]
+        filteringOptions: PostFilteringOptions,
+        sortingOptions: [PostSortingOption!]
     ): [Post!]!
     postGenerateRequests(
-        fo: PostGenerateRequestFilteringOptions,
-        so: [PostGenerateRequestSortingOption!],
+        filteringOptions: PostGenerateRequestFilteringOptions,
+        sortingOptions: [PostGenerateRequestSortingOption!],
     ): [PostGenerateRequest!]!
     reactions(
-        fo: ReactionFilteringOptions,
-        so: [ReactionSortingOption!],
+        filteringOptions: ReactionFilteringOptions,
+        sortingOptions: [ReactionSortingOption!],
     ): [Reaction!]!
     reactionPreset(
-        fo: ReactionPresetFilteringOptions,
-        so: [ReactionPresetSortingOption!],
+        filteringOptions: ReactionPresetFilteringOptions,
+        sortingOptions: [ReactionPresetSortingOption!],
     ): [ReactionPreset!]!
 }
 
@@ -98,8 +101,8 @@ type ReactionPreset {
     createdAt: String!
     creator: User!
     associatedReactions(
-        fo: ReactionFilteringOptions,
-        so: [ReactionSortingOption!]
+        filteringOptions: ReactionFilteringOptions,
+        sortingOptions: [ReactionSortingOption!]
     ): [Reaction!]!
 }
 
@@ -135,57 +138,32 @@ input ReactionPresetFilteringOptions {
     creatorIds: [ID!]
 }
 
-enum UserSortingType {
-    NAME
-    GET_REACTION_NUM
-    GIVE_REACTION_NUM
+input UserSortingOption @oneOf {
+    nameAsc: Boolean
+    getReactionNumAsc: Boolean
+    giveReactionNumAsc: Boolean
 }
 
-input UserSortingOption {
-    type: UserSortingType!
-    asc: Boolean!
+input PostSortingOption @oneOf {
+    idAsc: Boolean
+    reactionNumAsc: Boolean
+    creatorIdAsc: Boolean
+    createdAtAsc: Boolean
 }
 
-enum PostSortingType {
-    ID
-    REACTION_NUM
-    CREATOR_ID
-    CREATED_AT
+input PostGenerateRequestSortingOption @oneOf {
+    idAsc: Boolean
 }
 
-input PostSortingOption {
-    type: PostSortingType!
-    asc: Boolean!
+input ReactionSortingOption @oneOf {
+    idAsc: Boolean
+    reactionPresetIdAsc: Boolean
+    reactedAtAsc: Boolean
 }
 
-enum PostGenerateRequestSortingType {
-    ID
-}
-
-input PostGenerateRequestSortingOption {
-    type: PostGenerateRequestSortingType!
-    asc: Boolean!
-}
-
-enum ReactionSortingType {
-    ID
-    REACTION_PRESET_ID
-    REACTED_AT
-}
-
-input ReactionSortingOption {
-    type: ReactionSortingType!
-    asc: Boolean!
-}
-
-enum ReactionPresetSortingType {
-    ID
-    CONTENT
-    CREATED_AT
-    REACTED_COUNT
-}
-
-input ReactionPresetSortingOption {
-    type: ReactionPresetSortingType!
-    asc: Boolean!
+input ReactionPresetSortingOption @oneOf {
+    idAsc: Boolean
+    contentAsc: Boolean
+    createdAsc: Boolean
+    reactedCountAsc: Boolean
 }

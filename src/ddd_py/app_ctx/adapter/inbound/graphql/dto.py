@@ -51,44 +51,36 @@ class ReactionPreset:
 @dataclass(frozen=True)
 class Page:
     offset: int
-    limit: int | None
+    limit: int | None = None
 
 
 @dataclass(frozen=True)
 class UserFilteringOptions:
-    name_exact: str | None
-    name_front: str | None
-    name_partial: str | None
-    name_back: str | None
+    name_exact: str | None = None
+    name_front: str | None = None
+    name_partial: str | None = None
+    name_back: str | None = None
 
 
-class UserSortingType(enum.Enum):
-    NAME = 1
-    GET_REACTION_NUM = 2
-    GIVE_REACTION_NUM = 3
-
-
+# TODO: oneOf ディレクティブの制約を実装するかどうか検討する
 @dataclass(frozen=True)
 class UserSortingOption:
-    type: UserSortingType
-    asc: bool
+    name_asc: bool | None = None
+    get_reaction_num_asc: bool | None = None
+    give_reaction_num_asc: bool | None = None
 
 
 @dataclass(frozen=True)
 class PostFilteringOptions:
-    creator_ids: list[str] | None
-    reaction_num_more: int | None
-    reaction_num_less: int | None
+    creator_ids: tuple[str] | None = None
+    reaction_num_more: int | None = None
+    reaction_num_less: int | None = None
 
 
-class PostSortingType(enum.Enum):
-    ID = 1
-    REACTION_NUM = 2
-    CREATOR_ID = 3
-    CREATED_AT = 4
-
-
+# TODO: oneOf ディレクティブの制約を実装するかどうか検討する
 @dataclass(frozen=True)
 class PostSortingOption:
-    type: PostSortingType
-    asc: bool
+    id_asc: bool | None = None
+    reaction_num_asc: bool | None = None
+    creator_id_asc: bool | None = None
+    created_at_asc: bool | None = None

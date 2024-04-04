@@ -25,7 +25,7 @@ from ddd_py.app_ctx.usecase.common.output_dto import PostDTO
 
 from .dataloader import Loader
 from .general import Context
-from .query import query, user
+from .query import post, post_filtering_options, post_sorting_option, query, user
 
 schema_path = os.getenv("GRAPHQL_SCHEMA_PATH_1")
 schema_text: str = ""
@@ -34,7 +34,7 @@ if schema_path:
         schema_text = f.read()
 
 
-def get_context_value(request: Request) -> Context:
+def _get_context_value(request: Request) -> Context:
     print(request.scope["dependencies"])
     loader = Loader(request.scope["dependencies"])
 
@@ -48,18 +48,21 @@ def get_context_value(request: Request) -> Context:
 binds: list[SchemaBindable] = [
     query,
     user,
+    post,
+    post_filtering_options,
+    post_sorting_option,
 ]
 schema = make_executable_schema(schema_text, *binds, convert_names_case=True)
 
 
-graphql_app = GraphQL(schema, debug=True, context_value=get_context_value)
+graphql_app = GraphQL(schema, debug=True, context_value=_get_context_value)
 
 
 def prepare_dependencies() -> Generator[Dependencies, None, None]:
     raise NotImplementedError("need to inject dependency")
 
 
-def mock_dependencies() -> Generator[Dependencies, None, None]:
+def _mock_dependencies() -> Generator[Dependencies, None, None]:
     class MockUsecase1(find_post.Usecase):
         async def find(
             self,
@@ -108,4 +111,4 @@ async def handle_graphql_query(
     return await graphql_app.handle_request(request)
 
 
-app.dependency_overrides[prepare_dependencies] = mock_dependencies
+app.dependency_overrides[prepare_dependencies] = _mock_dependencies

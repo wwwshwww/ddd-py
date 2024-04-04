@@ -111,6 +111,7 @@ pytest-asyncio==0.23.6
 pytest-xdist==3.5.0
     # via ddd-py
 python-dateutil==2.9.0.post0
+    # via ddd-py
     # via jupyter-client
 python-dotenv==1.0.1
     # via uvicorn
@@ -141,6 +142,8 @@ traitlets==5.14.2
     # via jupyter-client
     # via jupyter-core
     # via matplotlib-inline
+types-python-dateutil==2.9.0.20240316
+    # via ddd-py
 typing-extensions==4.10.0
     # via aiodataloader
     # via ariadne

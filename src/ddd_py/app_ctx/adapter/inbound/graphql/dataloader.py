@@ -9,7 +9,6 @@ from .dto import (
     Post,
     PostFilteringOptions,
     PostSortingOption,
-    PostSortingType,
 )
 
 
@@ -20,14 +19,14 @@ class PostFindOptionSet:
 
 
 def marshal_post_sorting_option(dto: PostSortingOption) -> post_finder.SortingType:
-    if dto.type == PostSortingType.ID:
-        return post_finder.SortingTypeId(dto.asc)
-    if dto.type == PostSortingType.REACTION_NUM:
-        return post_finder.SortingTypeReactionNum(dto.asc)
-    if dto.type == PostSortingType.CREATOR_ID:
-        return post_finder.SortingTypeUserId(dto.asc)
-    if dto.type == PostSortingType.CREATED_AT:
-        return post_finder.SortingTypeCreatedAt(dto.asc)
+    if dto.id_asc is not None:
+        return post_finder.SortingTypeId(dto.id_asc)
+    if dto.reaction_num_asc is not None:
+        return post_finder.SortingTypeReactionNum(dto.reaction_num_asc)
+    if dto.creator_id_asc is not None:
+        return post_finder.SortingTypeUserId(dto.creator_id_asc)
+    if dto.created_at_asc is not None:
+        return post_finder.SortingTypeCreatedAt(dto.created_at_asc)
 
     raise TypeError("invalid sorting type")
 

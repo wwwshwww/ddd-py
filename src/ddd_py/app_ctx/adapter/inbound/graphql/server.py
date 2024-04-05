@@ -23,9 +23,16 @@ from ddd_py.app_ctx.usecase import (
 )
 from ddd_py.app_ctx.usecase.common.output_dto import PostDTO
 
+from .common import Context
 from .dataloader import Loader
-from .general import Context
-from .query import post, post_filtering_options, post_sorting_option, query, user
+from .query import (
+    page,
+    post,
+    post_filtering_options,
+    post_sorting_option,
+    query,
+    user,
+)
 
 schema_path = os.getenv("GRAPHQL_SCHEMA_PATH_1")
 schema_text: str = ""
@@ -49,6 +56,7 @@ binds: list[SchemaBindable] = [
     query,
     user,
     post,
+    page,
     post_filtering_options,
     post_sorting_option,
 ]

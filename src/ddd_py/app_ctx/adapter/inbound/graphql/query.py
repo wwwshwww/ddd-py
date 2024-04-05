@@ -7,6 +7,7 @@ from ariadne import EnumType, InputType, ObjectType, QueryType, ScalarType
 
 from graphql import GraphQLResolveInfo
 
+from .common import Context
 from .dataloader import PostFindOptionSet
 from .dto import (
     Page,
@@ -18,7 +19,6 @@ from .dto import (
     UserFilteringOptions,
     UserSortingOption,
 )
-from .general import Context
 
 datetime_scalar = ScalarType("Datetime")
 
@@ -40,7 +40,7 @@ user_filtering_options = InputType(
 user_sorting_option = InputType("UserSortingOption", lambda x: UserSortingOption(**x))
 
 
-# * 配列は unhashable な list型 で持って来てしまうため、tuple型に変換する必要がある
+# * クライアントから配列データを渡されると問答無用で list型 として扱ってしまうので、hashable な tuple型 に変換している
 # * （マッピング先の型ヒントに自動で合わせてほしい。動的型付けの限界）
 def _parse_post_filtering_options(x: dict[str, Any]) -> PostFilteringOptions:
     if "creator_ids" in x:
@@ -96,9 +96,7 @@ async def resolve_posts(
             obj.id,
             PostFindOptionSet(
                 filtering_options,
-                tuple(s for s in sorting_options)
-                if sorting_options is not None
-                else None,
+                tuple(sorting_options) if sorting_options is not None else None,
             ),
         )
     )

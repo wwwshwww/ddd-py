@@ -20,7 +20,8 @@ class Service:
                     )
                 )
             )
+        # TDO: add correct error type
         except Exception as e:
-            raise Exception("TODO: add error type") from e  # pylint: disable=W0719
+            raise Exception("unauthorized") from e  # pylint: disable=W0719
 
         return result.user_id

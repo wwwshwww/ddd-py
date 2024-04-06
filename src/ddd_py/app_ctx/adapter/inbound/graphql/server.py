@@ -120,3 +120,23 @@ async def handle_graphql_query(
 
 
 app.dependency_overrides[prepare_dependencies] = _mock_dependencies
+
+""" デバッグ用クエリ
+{
+  users(ids: ["a", "b"]) {
+    id,
+    posts (
+      filteringOptions:{
+      	creatorIds: ["u1", "u2"],
+      },
+      sortingOptions: [
+        {idAsc: true},
+        {reactionNumAsc: false},
+      ]
+    ) {
+      id,
+      content
+    }
+  }
+}
+"""

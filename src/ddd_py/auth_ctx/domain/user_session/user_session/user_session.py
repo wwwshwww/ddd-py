@@ -36,7 +36,7 @@ class UserSession:
         self._last_activity_at = last_activity_at
         self._expires_at = expires_at
 
-    def activity(self, now: datetime.datetime):
+    def act(self, now: datetime.datetime):
         self._last_activity_at = now
         expected_expires_at = self._last_activity_at + EXPIRES_DURATION
 

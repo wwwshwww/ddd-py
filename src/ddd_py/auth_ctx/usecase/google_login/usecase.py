@@ -9,6 +9,8 @@ from .dto import LoginInput, LoginOutput, StartInput, StartOutput
 from .error import DomainError, PortError, RepositoryError, UnauthorizedError
 from .port import Port
 
+# https://developers.google.com/identity/openid-connect/openid-connec
+
 
 class Usecase(metaclass=ABCMeta):
     @abstractmethod
@@ -58,6 +60,7 @@ class UsecaseImpl(Usecase):
         try:
             now = datetime.now()
 
+            # * auth_session_id is considered equal to CSRF token
             aus_ids = await self.auth_session_finder.find(
                 auth_session_finder.FilteringOptions(id_in=[li.auth_session_id])
             )
@@ -80,7 +83,7 @@ class UsecaseImpl(Usecase):
                 )
             )
 
-            # user が存在しなければ新規登録
+            # * user が存在しなければ新規登録
             u: user.User
             if len(found_user_ids) == 0:
                 ui = user.generate_id()
@@ -100,6 +103,12 @@ class UsecaseImpl(Usecase):
         except auth_session.RepositoryDeleteError as e:
             raise RepositoryError() from e
         except auth_session.RepositorySaveError as e:
+            raise RepositoryError() from e
+        except user_session.RepositorySaveError as e:
+            raise RepositoryError() from e
+        except user.RepositoryGetError as e:
+            raise RepositoryError() from e
+        except user.RepositorySaveError as e:
             raise RepositoryError() from e
         except PortError as e:
             raise e

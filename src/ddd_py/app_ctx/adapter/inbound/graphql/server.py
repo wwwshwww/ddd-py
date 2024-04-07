@@ -151,7 +151,8 @@ app.dependency_overrides[prepare_dependencies] = _mock_dependencies
       sortingOptions: [
         {idAsc: true}, 
         {reactionNumAsc: false},
-      ]) {
+      ],
+    ) {
       id
       content
     }

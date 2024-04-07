@@ -40,7 +40,7 @@ class UsecaseImpl(Usecase):
             if not us.check_token(ust):
                 raise InvalidSessionTokenError()
 
-            us.activity(now)
+            us.act(now)
             self.user_session_repository.save(us)
 
         except user_session.DomainError as e:

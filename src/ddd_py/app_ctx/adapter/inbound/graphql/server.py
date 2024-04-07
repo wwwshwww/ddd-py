@@ -14,14 +14,15 @@ from starlette.requests import Request
 from ddd_py.app_ctx.common.dependencies import Dependencies
 from ddd_py.app_ctx.common.types import Page
 from ddd_py.app_ctx.domain.post import post as post_domain
-from ddd_py.app_ctx.domain.post.post_finder.filtering_options import (
-    FilteringOptions,  # TODO: option.py に両方とも置いて良い気がした
-)
-from ddd_py.app_ctx.domain.post.post_finder.sorting_options import SortingOptions
+from ddd_py.app_ctx.domain.post import post_finder
+from ddd_py.app_ctx.domain.user import user as user_domain
+from ddd_py.app_ctx.domain.user import user_finder
 from ddd_py.app_ctx.usecase import (
     find_post,
+    find_user,
+    retrieve_user,
 )
-from ddd_py.app_ctx.usecase.common.output_dto import PostDTO
+from ddd_py.app_ctx.usecase.common.output_dto import PostDTO, UserDTO
 
 from .common import Context
 from .dataloader import Loader
@@ -71,14 +72,13 @@ def prepare_dependencies() -> Generator[Dependencies, None, None]:
 
 
 def _mock_dependencies() -> Generator[Dependencies, None, None]:
-    class MockUsecase1(find_post.Usecase):
+    class MockFindPostUsecase(find_post.Usecase):
         async def find(
             self,
-            fo: FilteringOptions | None = None,
-            so: SortingOptions | None = None,
+            fo: post_finder.FilteringOptions | None = None,
+            so: post_finder.SortingOptions | None = None,
             page: Page | None = None,
         ) -> list[PostDTO]:
-            print(fo, so, page)
             if fo is None:
                 return []
             elif (fo is not None) and (fo.user_id_in is None):
@@ -89,13 +89,29 @@ def _mock_dependencies() -> Generator[Dependencies, None, None]:
                     for ui in fo.user_id_in
                 ]
 
+    class MockFindUserUsecase(find_user.Usecase):
+        async def find(
+            self,
+            fo: user_finder.FilteringOptions,
+            so: user_finder.SortingOptions,
+            page: Page,
+        ) -> list[UserDTO]:
+            return [
+                UserDTO(user_domain.Id(uuid.uuid4()), f"ユーザ_{i}") for i in range(3)
+            ]
+
+    class MockRetrieveUserUsecase(retrieve_user.Usecase):
+        async def retrieve_by_ids(self, ids: list[user_domain.Id]) -> list[UserDTO]:
+            return [UserDTO(i, f"ユーザ_{i}") for i in ids]
+
     try:
         yield Dependencies(
-            usecase_find_post=MockUsecase1(),
+            usecase_find_post=MockFindPostUsecase(),
             usecase_find_post_generate_request=None,
             usecase_find_reaction=None,
             usecase_find_reaction_preset=None,
-            usecase_find_user=None,
+            usecase_find_user=MockFindUserUsecase(),
+            usecase_retrieve_user=MockRetrieveUserUsecase(),
         )
     finally:
         print("done")
@@ -123,18 +139,20 @@ app.dependency_overrides[prepare_dependencies] = _mock_dependencies
 
 """ デバッグ用クエリ
 {
-  users(ids: ["a", "b"]) {
+  users(
+    ids: ["267feef0-8853-49e2-961e-1d0e9ff07263", "29639428-dcd1-4a71-b4e5-005ca04df7cb"]
+  ) {
     id,
-    posts (
-      filteringOptions:{
-      	creatorIds: ["u1", "u2"],
+    name,
+    posts(
+      filteringOptions: {
+        creatorIds: ["u1", "u2"], # user.posts では無視される
       },
       sortingOptions: [
-        {idAsc: true},
+        {idAsc: true}, 
         {reactionNumAsc: false},
-      ]
-    ) {
-      id,
+      ]) {
+      id
       content
     }
   }

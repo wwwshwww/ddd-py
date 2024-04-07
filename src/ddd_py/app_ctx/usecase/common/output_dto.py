@@ -32,3 +32,4 @@ class ReactionPresetDTO:
 @dataclass
 class UserDTO:
     id: user.Id
+    name: str

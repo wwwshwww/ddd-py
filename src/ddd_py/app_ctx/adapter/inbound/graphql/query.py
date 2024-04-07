@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from typing import Any
 
@@ -5,6 +6,7 @@ import dateutil
 import dateutil.parser
 from ariadne import EnumType, InputType, ObjectType, QueryType, ScalarType
 
+from ddd_py.app_ctx.domain.user import user as user_domain
 from graphql import GraphQLResolveInfo
 
 from .common import Context
@@ -72,15 +74,19 @@ async def resolve_users(
     obj: Any,
     info: GraphQLResolveInfo,
     ids: list[str],
-) -> list[User]:
+) -> list[User | None]:
     ctx: Context = info.context
     print(ids)
-    return [
-        User("3097799b-02f7-4c8b-b698-c84de9a5e212", "Sam"),
-        User("a0fbcc65-ec9f-4dfc-bafc-ea12aa7f5f58", "Bob"),
-    ]
+    users = await ctx.dependencies.usecase_retrieve_user.retrieve_by_ids(
+        [user_domain.Id(uuid.UUID(i)) for i in ids]
+    )
+    return [User(str(u.id.value), u.name) for u in users]
 
 
+# ! user.posts においては、所持者ユーザのID指定を意味する filteringOption.creatorIds は無視される
+# ?: 初期時点で、サブリソース取得に find と同等レベルのフィルタリングやソーティングを搭機する意味は薄いかもしれない。
+# ?: 後から徐々にクライアントの要件に合わせて追加していく場合、input type を find と共通で利用する必要もない。
+# TODO: ↑ 対応。ケースに応じて指定無効なフィールドが発生するようなパターンは混乱しやすいため
 @user.field("posts")
 async def resolve_posts(
     obj: User,

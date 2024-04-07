@@ -55,7 +55,7 @@ type Post {
 
 input Page {
     offset: Int!
-    limit: Int!
+    limit: Int
 }
 
 input UserFilteringOptions {

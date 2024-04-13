@@ -22,6 +22,7 @@ dependencies = [
     "types-python-dateutil>=2.9.0.20240316",
     "redis>=5.0.3",
     "httpx>=0.27.0",
+    "loguru>=0.7.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

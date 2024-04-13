@@ -73,6 +73,8 @@ jupyter-client==8.6.1
 jupyter-core==5.7.2
     # via ipykernel
     # via jupyter-client
+loguru==0.7.2
+    # via ddd-py
 matplotlib-inline==0.1.6
     # via ipykernel
     # via ipython

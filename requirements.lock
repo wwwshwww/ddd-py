@@ -53,6 +53,8 @@ idna==3.6
     # via httpx
 iniconfig==2.0.0
     # via pytest
+loguru==0.7.2
+    # via ddd-py
 mypy==1.9.0
     # via ddd-py
 mypy-extensions==1.0.0

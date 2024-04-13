@@ -72,7 +72,7 @@ class UsecaseImpl(Usecase):
                 await self.auth_session_repository.delete(aus.id)
                 raise UnauthorizedError("auth session is expired")
 
-            idp_resp = self.usecase_port.code2token(li.code)
+            idp_resp = await self.usecase_port.code2token(li.code)
 
             await self.auth_session_repository.delete(aus.id)
 

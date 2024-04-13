@@ -5,5 +5,5 @@ from .dto import IdpTokenResponse
 
 class Port(metaclass=ABCMeta):
     @abstractmethod
-    def code2token(self, code: str) -> IdpTokenResponse:
+    async def code2token(self, code: str) -> IdpTokenResponse:
         pass

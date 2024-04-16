@@ -49,6 +49,9 @@ packages = ["src/ddd_py"]
 [tool.ruff.lint.isort]
 known-first-party = ["ddd_py"] 
 
+[tool.ruff]
+ignore = ["F401"]
+
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true

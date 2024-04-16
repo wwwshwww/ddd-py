@@ -33,7 +33,7 @@ class Repository(auth_session.Repository):
         except auth_session.RepositoryGetError as e:
             raise e
         except Exception as e:
-            raise auth_session.RepositoryGetError("failed to get", ids) from e
+            raise auth_session.RepositoryGetError("failed to get", []) from e
 
         return result
 

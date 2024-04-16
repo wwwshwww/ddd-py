@@ -14,7 +14,7 @@ from ddd_py.auth_ctx.adapter.outbound.domain.auth_session.auth_session_mysql.rep
     Repository,
 )
 from ddd_py.auth_ctx.domain.auth_session import auth_session
-from ddd_py.common.adapter.mysql.conftest import (  # noqa: F401 pylint: disable=W0611
+from ddd_py.common.adapter.mysql.conftest import (
     general_engine,
     initializer,
 )

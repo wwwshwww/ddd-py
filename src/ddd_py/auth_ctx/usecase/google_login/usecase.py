@@ -89,9 +89,9 @@ class UsecaseImpl(Usecase):
                 ui = user.generate_id()
                 ugp = user.GoogleProfile(user.ProviderSubject(idp_resp.sub))
                 u = user.User(ui, ugp)
-                self.user_repository.save(u)
+                await self.user_repository.save(u)
             else:
-                u = self.user_repository.get(found_user_ids[0])
+                u = await self.user_repository.get(found_user_ids[0])
 
             us, us_token = user_session.generate(u.id, now)
             self.user_session_repository.save(us)

@@ -69,6 +69,8 @@ pycparser==2.21
     # via cffi
 pydantic==1.10.14
     # via fastapi
+pyjwt==2.8.0
+    # via ddd-py
 pymysql==1.1.0
     # via aiomysql
     # via ddd-py

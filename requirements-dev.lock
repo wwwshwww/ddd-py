@@ -111,6 +111,8 @@ pydantic==1.10.14
     # via fastapi
 pygments==2.17.2
     # via ipython
+pyjwt==2.8.0
+    # via ddd-py
 pymysql==1.1.0
     # via aiomysql
     # via ddd-py

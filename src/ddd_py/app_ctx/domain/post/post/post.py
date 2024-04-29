@@ -8,12 +8,12 @@ from .id import Id
 
 class Post:
     def __init__(
-        self, id: Id, user_id: user.Id, content: Content, created_at: datetime
+        self, id: Id, user_id: user.Id, content: Content, posted_at: datetime
     ) -> None:
         self._id = id
         self._user_id = user_id
         self._content = content
-        self._created_at = created_at
+        self._posted_at = posted_at
 
     @property
     def id(self) -> Id:
@@ -28,8 +28,8 @@ class Post:
         return self._content
 
     @property
-    def created_at(self) -> datetime:
-        return self._created_at
+    def posted_at(self) -> datetime:
+        return self._posted_at
 
     def replace_content(self, new_content: Content) -> None:
         self._content = new_content

@@ -66,11 +66,19 @@ CREATE TABLE
 CREATE TABLE
     `post` (
         `id` BINARY(16) NOT NULL,
-        `user_version_id` BINARY(16) NOT NULL,
+        `user_id` BINARY(16) NOT NULL,
         `content` VARCHAR(1024) NOT NULL,
         `posted_at` DATETIME NOT NULL,
         PRIMARY KEY (`id`),
-        CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
+        CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE
+    `post_user_version` (
+        `post_id` BINARY(16) NOT NULL,
+        `user_version_id` BINARY(16) NOT NULL,
+        CONSTRAINT `post_user_version_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `post_user_version_ibfk_2` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * updatable event 

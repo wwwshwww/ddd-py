@@ -5,9 +5,9 @@ from typing import Any
 import dateutil
 import dateutil.parser
 from ariadne import EnumType, InputType, ObjectType, QueryType, ScalarType
+from graphql import GraphQLResolveInfo
 
 from ddd_py.app_ctx.domain.user import user as user_domain
-from graphql import GraphQLResolveInfo
 
 from .common import Context
 from .dataloader import PostFindOptionSet
@@ -15,7 +15,6 @@ from .dto import (
     Page,
     Post,
     PostFilteringOptions,
-    PostGenerateRequestGenStatus,
     PostSortingOption,
     User,
     UserFilteringOptions,
@@ -27,12 +26,6 @@ datetime_scalar = ScalarType("Datetime")
 query = QueryType()
 user = ObjectType("User")
 post = ObjectType("Post")
-post_generate_request = ObjectType("PostGenerateRequest")
-post_generate_request_gen_status = EnumType(
-    "PostGenerateRequestGenStatus", PostGenerateRequestGenStatus
-)
-reaction = ObjectType("Reaction")
-reaction_preset = ObjectType("ReactionPreset")
 
 page = InputType("Page", lambda x: Page(**x))
 

@@ -16,39 +16,6 @@ class Post:
 
 
 @dataclass(frozen=True)
-class PostGenerateRequest:
-    id: str
-    creator_id: str
-    keywords: list[str]
-    generation_status: "PostGenerateRequestGenStatus"
-    requested_at: str
-    generated_post_id: str | None
-
-
-class PostGenerateRequestGenStatus(enum.Enum):
-    UNCOMPLETED = 1
-    COMPLETED = 2
-
-
-@dataclass(frozen=True)
-class Reaction:
-    id: str
-    reaction_preset_id: str
-    target_post_id: str
-    reactor_id: str
-    reacted_at: str
-    is_approved: bool
-
-
-@dataclass(frozen=True)
-class ReactionPreset:
-    id: str
-    content: str
-    created_at: str
-    creator_id: str
-
-
-@dataclass(frozen=True)
 class Page:
     offset: int
     limit: int | None = None

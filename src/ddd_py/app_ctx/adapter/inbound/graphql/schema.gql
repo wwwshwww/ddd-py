@@ -17,30 +17,6 @@ type Query {
         sortingOptions: [PostSortingOption!],
         page: Page
     ): [Post!]!
-
-    postGenerateRequest(id: ID!): PostGenerateRequest
-    postGenerateRequests(ids: [ID!]): [PostGenerateRequest]!
-    findPostGenerateRequest(
-        filteringOptions: PostGenerateRequestFilteringOptions,
-        sortingOptions: [PostGenerateRequestSortingOption!],
-        page: Page
-    ): [PostGenerateRequest!]!
-
-    reaction(id: ID!): Reaction
-    reactions(ids: [ID!]): [Reaction]!
-    findReaction(
-        filteringOptions: ReactionFilteringOptions,
-        sortingOptions: [ReactionSortingOption!],
-        page: Page
-    ): [Reaction!]!
-
-    reactionPreset(id: ID!): ReactionPreset
-    reactionPresets(ids: [ID!]): [ReactionPreset]!
-    findReactionPreset(
-        filteringOptions: ReactionPresetFilteringOptions,
-        sortingOptions: [ReactionPresetSortingOption!],
-        page: Page
-    ): [ReactionPreset!]!
 }
 
 type User {
@@ -51,18 +27,6 @@ type User {
         filteringOptions: PostFilteringOptions,
         sortingOptions: [PostSortingOption!]
     ): [Post!]!
-    postGenerateRequests(
-        filteringOptions: PostGenerateRequestFilteringOptions,
-        sortingOptions: [PostGenerateRequestSortingOption!],
-    ): [PostGenerateRequest!]!
-    reactions(
-        filteringOptions: ReactionFilteringOptions,
-        sortingOptions: [ReactionSortingOption!],
-    ): [Reaction!]!
-    reactionPreset(
-        filteringOptions: ReactionPresetFilteringOptions,
-        sortingOptions: [ReactionPresetSortingOption!],
-    ): [ReactionPreset!]!
 }
 
 type Post {
@@ -70,40 +34,6 @@ type Post {
     content: String!
     creator: User!
     postGenerateRequest: PostGenerateRequest!
-}
-
-type PostGenerateRequest {
-    id: ID!
-    creator: User!
-    keywords: [String!]!
-    generationStatus: PostGenerateRequestGenStatus!
-    requestedAt: Datetime!
-    generatedPost: Post
-}
-
-enum PostGenerateRequestGenStatus {
-    UNCOMPLETED
-    COMPLETED
-}
-
-type Reaction {
-    id: ID!
-    reactionPreset: ReactionPreset!
-    targetPost: Post!
-    reactor: User!
-    reactedAt: Datetime!
-    isApproved: Boolean!
-}
-
-type ReactionPreset {
-    id: ID!
-    content: String!
-    createdAt: Datetime!
-    creator: User!
-    associatedReactions(
-        filteringOptions: ReactionFilteringOptions,
-        sortingOptions: [ReactionSortingOption!]
-    ): [Reaction!]!
 }
 
 input Page {
@@ -124,20 +54,6 @@ input PostFilteringOptions {
     reactionNumLess: Int
 }
 
-input PostGenerateRequestFilteringOptions {
-    creatorIds: [ID!]
-    excludeStatuses: [PostGenerateRequestGenStatus!]
-}
-
-input ReactionFilteringOptions {
-    reactorIds: [ID!]
-    excludeApproved: Boolean
-}
-
-input ReactionPresetFilteringOptions {
-    creatorIds: [ID!]
-}
-
 input UserSortingOption @oneOf {
     nameAsc: Boolean
     getReactionNumAsc: Boolean
@@ -149,21 +65,4 @@ input PostSortingOption @oneOf {
     reactionNumAsc: Boolean
     creatorIdAsc: Boolean
     createdAtAsc: Boolean
-}
-
-input PostGenerateRequestSortingOption @oneOf {
-    idAsc: Boolean
-}
-
-input ReactionSortingOption @oneOf {
-    idAsc: Boolean
-    reactionPresetIdAsc: Boolean
-    reactedAtAsc: Boolean
-}
-
-input ReactionPresetSortingOption @oneOf {
-    idAsc: Boolean
-    contentAsc: Boolean
-    createdAsc: Boolean
-    reactedCountAsc: Boolean
 }

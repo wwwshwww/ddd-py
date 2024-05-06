@@ -73,6 +73,7 @@ CREATE TABLE
         CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- * intersection entity
 CREATE TABLE
     `post_user_version` (
         `post_id` BINARY(16) NOT NULL,
@@ -85,11 +86,20 @@ CREATE TABLE
 CREATE TABLE
     `post_generation` (
         `id` BINARY(16) NOT NULL,
-        `user_version_id` BINARY(16) NOT NULL,
+        `user_id` BINARY(16) NOT NULL,
         `latest_status` VARCHAR(50) NOT NULL,
         `requested_at` DATETIME NOT NULL,
         PRIMARY KEY (`id`),
         CONSTRAINT `post_generate_request_ibfk_1` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- * intersection entity
+CREATE TABLE
+    `post_generation_user_version` (
+        `post_generation_id` BINARY(16) NOT NULL,
+        `user_version_id` BINARY(16) NOT NULL,
+        CONSTRAINT `post_generation_user_version_ibfk_1` FOREIGN KEY (`post_generation_id`) REFERENCES `post_generation` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `post_generation_user_version_ibfk_2` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * event
@@ -110,7 +120,7 @@ CREATE TABLE
         CONSTRAINT `post_generation_process_request_ibfk_1` FOREIGN KEY (`post_generation_process_id`) REFERENCES `post_generation_process` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- * resource
+-- * intersection entity
 CREATE TABLE
     `post_generation_process_request_keyword` (
         `post_generation_process_request_id` BINARY(16) NOT NULL,

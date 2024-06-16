@@ -90,7 +90,7 @@ CREATE TABLE
         `latest_status` VARCHAR(50) NOT NULL,
         `requested_at` DATETIME NOT NULL,
         PRIMARY KEY (`id`),
-        CONSTRAINT `post_generate_request_ibfk_1` FOREIGN KEY (`user_version_id`) REFERENCES `user_version` (`id`) ON DELETE CASCADE
+        CONSTRAINT `post_generate_request_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * intersection entity
@@ -116,14 +116,14 @@ CREATE TABLE
 -- * event
 CREATE TABLE
     `post_generation_process_request` (
-        `post_generation_process_id` BINARY(16) NOT NULL,
+        `post_generation_process_id` BINARY(16) UNIQUE NOT NULL,
         CONSTRAINT `post_generation_process_request_ibfk_1` FOREIGN KEY (`post_generation_process_id`) REFERENCES `post_generation_process` (`id`) ON DELETE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- * intersection entity
 CREATE TABLE
     `post_generation_process_request_keyword` (
-        `post_generation_process_request_id` BINARY(16) NOT NULL,
+        `post_generation_process_request_id` BINARY(16) UNIQUE NOT NULL,
         `keyword` VARCHAR(255) NOT NULL,
         `position` INT UNSIGNED NOT NULL,
         CONSTRAINT `post_generation_process_request_keyword_ibfk_1` FOREIGN KEY (`post_generation_process_request_id`) REFERENCES `post_generation_process_request` (`post_generation_process_id`) ON DELETE CASCADE
@@ -132,7 +132,7 @@ CREATE TABLE
 -- * event
 CREATE TABLE
     `post_generation_process_respond` (
-        `post_generation_process_id` BINARY(16) NOT NULL,
+        `post_generation_process_id` BINARY(16) UNIQUE NOT NULL,
         `result_status` VARCHAR(50) NOT NULL,
         `created_post_id` BINARY(16) NOT NULL,
         CONSTRAINT `post_generation_process_respond_ibfk_1` FOREIGN KEY (`post_generation_process_id`) REFERENCES `post_generation_process` (`id`) ON DELETE CASCADE
